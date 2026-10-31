@@ -18,6 +18,7 @@ public class ZombieBase : MonoBehaviour
     private bool isStunned = false;
     private Player player;
     [SerializeField] private PowerUpSpawner pus;
+    [SerializeField] private GameObject zombieRagdoll;
     private PlayerShoot playerAmmo;
     private Transform playerTransform;
 
@@ -226,6 +227,7 @@ public class ZombieBase : MonoBehaviour
         //----- NUEVO CODIGO -----
         rm.RemoveZombie(this);
         pus.Spawn();
+        GameObject z_Ragdoll = Instantiate(zombieRagdoll, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 

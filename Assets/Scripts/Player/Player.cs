@@ -234,13 +234,7 @@ public class Player : MonoBehaviour
 
         UnityEvents.onPowerUpTriggered.Invoke();
     }
-    private void LateUpdate()
-    {
-        if (psWings != null && hasWings)
-        {
-            psWings.transform.rotation = transform.rotation;
-        }
-    }
+
     private IEnumerator RemovePowerUpAfterTime(PlayerBonus bonus, float duration)
     {
         yield return new WaitForSeconds(duration);
@@ -251,7 +245,7 @@ public class Player : MonoBehaviour
 
             if (psWings != null)
             {
-                psWings.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                psWings.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             }
         }
 

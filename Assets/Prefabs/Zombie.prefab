@@ -5816,6 +5816,7 @@ MonoBehaviour:
   criticalChance: 0.33
   healChance: 0.0667
   pus: {fileID: 2163085699649589148}
+  zombieRagdoll: {fileID: 7277187663294482894, guid: aaa360895ac833345a7b46d044e33a82, type: 3}
   attackRange: 0.9
   zombieDamage: 1
   ps: {fileID: 7298432569968053434}

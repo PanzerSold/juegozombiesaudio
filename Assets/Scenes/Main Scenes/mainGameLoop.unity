@@ -10105,6 +10105,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1161843247}
     m_Modifications:
+    - target: {fileID: 406831395071743185, guid: 4b93cedf93ad5d84c889e75307c286b2, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1743220900320812667, guid: 4b93cedf93ad5d84c889e75307c286b2, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2688540115402179518, guid: 4b93cedf93ad5d84c889e75307c286b2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.058
@@ -10132,6 +10140,10 @@ PrefabInstance:
     - target: {fileID: 2943407981523361050, guid: 4b93cedf93ad5d84c889e75307c286b2, type: 3}
       propertyPath: m_Name
       value: Wings
+      objectReference: {fileID: 0}
+    - target: {fileID: 2943407981523361050, guid: 4b93cedf93ad5d84c889e75307c286b2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4306531364896084506, guid: 4b93cedf93ad5d84c889e75307c286b2, type: 3}
       propertyPath: looping
@@ -10239,6 +10251,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6830776490155906908, guid: 4b93cedf93ad5d84c889e75307c286b2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8740014126293727802, guid: 4b93cedf93ad5d84c889e75307c286b2, type: 3}
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -13715,6 +13731,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1982410152}
     m_Modifications:
+    - target: {fileID: 622469259534490959, guid: 5deba1352384b3543b39de13e444e4a3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1870924759292438197, guid: 5deba1352384b3543b39de13e444e4a3, type: 3}
       propertyPath: delayBarricada
       value: 1.5
@@ -13730,6 +13750,22 @@ PrefabInstance:
     - target: {fileID: 4255548958782997022, guid: 5deba1352384b3543b39de13e444e4a3, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456349388855727464, guid: 5deba1352384b3543b39de13e444e4a3, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4554961687733650359, guid: 5deba1352384b3543b39de13e444e4a3, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5705008835350078144, guid: 5deba1352384b3543b39de13e444e4a3, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6405812024810396706, guid: 5deba1352384b3543b39de13e444e4a3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.34
       objectReference: {fileID: 0}
     - target: {fileID: 8396010618126026370, guid: 5deba1352384b3543b39de13e444e4a3, type: 3}
       propertyPath: m_LocalPosition.x
