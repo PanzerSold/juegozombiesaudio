@@ -71,6 +71,8 @@ public class Player : MonoBehaviour
 
     private Animator anim;
 
+    public bool IsVaulting { get; set; }
+
     private void Start()
     {
         anim = GetComponentInChildren<Animator>();
@@ -102,7 +104,7 @@ public class Player : MonoBehaviour
                 lastTimeLeft = timeLeft;
             }
         }
-        if (playerAmmo.InventoryOpen)
+        if (playerAmmo.InventoryOpen || IsVaulting)
         {
             anim.SetFloat("Xspeed", 0f);
             anim.SetFloat("Zspeed", 0f);
