@@ -20291,7 +20291,7 @@ MonoBehaviour:
   shootTime: 0.6
   weaponIndex: 9
   shootScript: {fileID: 0}
-  ammoMax: 8
+  ammoMax: 4
   ammoQuantity: 24
   delayRecharge: 1.2
   materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
@@ -20304,7 +20304,7 @@ MonoBehaviour:
   isAutomatic: 0
   boomRadius: 0.5
   raycastCount: 8
-  spreadAngle: 3
+  spreadAngle: 1.8
   rotationPerShot: 13
   impactPrefab: {fileID: 5405569026550440892, guid: 87dc52f3efa04fd43bf812ab1c856c03, type: 3}
 --- !u!1 &1834113904
