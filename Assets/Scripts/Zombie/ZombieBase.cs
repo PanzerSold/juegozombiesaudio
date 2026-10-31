@@ -288,28 +288,25 @@ public class ZombieBase : MonoBehaviour
                 destroyingBarricade = true;
             }
             //----- NUEVO CODIGO -----
-
+        }
             //----- NUEVO CODIGO ----- 
-            if (other.CompareTag("Fire") && !isBurning)
-            {
-                isBurning = true;
-                StartCoroutine(Burn());
-            }
-            //----- NUEVO CODIGO -----
-        }
-
-
-
-        IEnumerator Burn()
+        if (other.CompareTag("Fire") && !isBurning)
         {
-            isStunned = true;
-            //----- NUEVO CODIGO ----- Frena al agente mientras se quema
-            nav.SetStunned(true);
-            //----- NUEVO CODIGO -----
-            ps.Play();
-            yield return new WaitForSeconds(1f);
-            Despawn();
+            isBurning = true;
+            StartCoroutine(Burn());
         }
+            //----- NUEVO CODIGO -----
+    }
+
+    IEnumerator Burn()
+    {
+        isStunned = true;
+        //----- NUEVO CODIGO ----- Frena al agente mientras se quema
+        nav.SetStunned(true);
+        //----- NUEVO CODIGO -----
+        ps.Play();
+        yield return new WaitForSeconds(1f);
+        Despawn();
     }
 
 
