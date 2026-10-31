@@ -35,9 +35,9 @@ public class RoundManager : MonoBehaviour
 
             ZombieBase newZombieScript = newZombie.GetComponent<ZombieBase>();
 
-            bool shouldntRandom = currentRound < 3 && currentRound > 5;
+            bool shouldntRandom = currentRound < 3 || currentRound > 5;
             int roundRange = currentRound < 6 ? 0 : 1;
-            int indexRandom = shouldntRandom ? roundRange * 2 : Random.Range(0,1) + roundRange;
+            int indexRandom = shouldntRandom ? roundRange * 2 : Random.Range(0,2) + roundRange;
 
             newZombieScript.ChangeSpeed(indexRandom);
             newZombieScript.goTo(nearestBarricadePos);
