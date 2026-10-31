@@ -28,22 +28,17 @@ public class WeaponMachine : BaseMachine
             {
                 if (inventory.FindAndFillFirst(Inventory.GetAmmoFor(givenWeapon)))
                 {
-                    //----- Codigo borrado ----- player.AwardPoints(PuntosRequeridos/2); -----Codigo borrado----- Ya no hay reembolso, CostoActual ya es la mitad
                     SFX_Comprar.Play();
                 }
                 else
                 {
-                    //----- NUEVO CODIGO ----- No se cobra en vez de reembolsar
                     compraFallida = true;
-                    //----- NUEVO CODIGO -----
                     StartCoroutine(VisualPurchase("Inventory is full"));
                 }
             }
             else
             {
-                //----- NUEVO CODIGO ----- No se cobra en vez de reembolsar
                 compraFallida = true;
-                //----- NUEVO CODIGO -----
                 StartCoroutine(VisualPurchase("Inventory is full"));
             }
             return;
@@ -52,7 +47,6 @@ public class WeaponMachine : BaseMachine
         {
             StartCoroutine(VisualPurchase("Bought ammo"));
             EntregarBalas();
-            //----- Codigo borrado ----- player.AwardPoints(PuntosRequeridos / 2); -----Codigo borrado----- Ya no hay reembolso
         }
     
         else

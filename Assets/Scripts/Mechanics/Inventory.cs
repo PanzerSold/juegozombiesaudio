@@ -108,6 +108,7 @@ public class Inventory : MonoBehaviour
         {
             case itemIndex.Balas_Pistola: return limites.Balas_Pistola;
             case itemIndex.Balas_Rifle: return limites.Balas_Rifle;
+            case itemIndex.Balas_Sniper: return limites.Balas_Sniper;
             case itemIndex.Balas_Subfusil: return limites.Balas_Subfusil;
             case itemIndex.Balas_Escopeta: return limites.Balas_Escopeta;
             case itemIndex.Balas_Lanzacohete: return limites.Balas_Lanzacohete;
@@ -327,11 +328,12 @@ public class Inventory : MonoBehaviour
     {
         for(int i = 0; i < SlotCount; i++)
         {
-            Item cItem = actualInventory[i];
-            if (cItem.index == ammo && cItem.amount < GetLimit(cItem.index))
+            if (actualInventory[i].index == ammo && actualInventory[i].amount < GetLimit(actualInventory[i].index))
             {
-                cItem.amount = GetLimit(cItem.index);
+                actualInventory[i].amount = GetLimit(actualInventory[i].index);
+                OnInventoryChanged?.Invoke();
                 return true;
+                
             }
         }
         return false;
