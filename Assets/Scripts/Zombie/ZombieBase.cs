@@ -1,3 +1,4 @@
+
 using System.Collections;
 using UnityEngine;
 
@@ -66,10 +67,13 @@ public class ZombieBase : MonoBehaviour
 
     private bool isAttacking = false;
 
+    [SerializeField] private AudioSource zombieAudio;
+
     public void ChangeSpeed(int index)
     {
         speedIndex = index;
         nav.SetSpeed(speedValues[index]);
+        Debug.Log(index + " " + speedIndex);
 
     }
 
@@ -102,9 +106,15 @@ public class ZombieBase : MonoBehaviour
 
         anim.Play("rise", 0, 0f);
 
+        double inicio = AudioSettings.dspTime + Random.Range(0.1f, 0.5f);
+
+        zombieAudio.PlayScheduled(inicio);
+
         yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
 
         nav.SetSpeed(speedValues[speedIndex]);
+
+        Debug.Log("after anim" + speedIndex);
     }
 
 
@@ -118,6 +128,11 @@ public class ZombieBase : MonoBehaviour
         bool blockedByBarricade = destroyingBarricade && ultimabarricada != null && !ultimabarricada.isOpen;
         nav.SetHolding(blockedByBarricade);
 
+        if(!zombieAudio.isPlaying)
+        {
+            zombieAudio.pitch = Random.Range(0.8f, 1.2f);
+            zombieAudio.Play();
+        }
         if (blockedByBarricade || isStunned || isAttacking) return;
 
         Vector3 diff = playerTransform.position - transform.position;

@@ -102,6 +102,12 @@ public class Player : MonoBehaviour
                 lastTimeLeft = timeLeft;
             }
         }
+        if (playerAmmo.InventoryOpen)
+        {
+            anim.SetFloat("Xspeed", 0f);
+            anim.SetFloat("Zspeed", 0f);
+            return;
+        }
         if (isGrounded)
         {
             if (!ph.IsDying) { anim.SetLayerWeight(1, 1f); }
@@ -136,11 +142,14 @@ public class Player : MonoBehaviour
             walktimer += Time.deltaTime;
             if (walktimer >= walkInterval)
             {
-              SFX_Steps.pitch = Random.Range(0.8f, 1.2f); SFX_Steps.PlayOneShot(stepsClip);
-              walktimer = 0f;
-                Debug.Log(playerMovement.magnitude);
+                SFX_Steps.pitch = Random.Range(0.8f, 1.2f); SFX_Steps.PlayOneShot(stepsClip);
+                walktimer = 0f;
 
             }
+        }
+        else
+        {
+            walktimer = 0f;
         }
     }
 

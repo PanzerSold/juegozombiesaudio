@@ -19,12 +19,14 @@ public abstract class Interaction : MonoBehaviour
     protected String fullString = "";
 
     protected PlayerHealth ph;
+    protected PlayerShoot playerAmmo;
 
 
     protected virtual void Start()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
         ph = GameObject.FindWithTag("Player").GetComponent<PlayerHealth>();
+        playerAmmo = GameObject.FindWithTag("Player").GetComponent<PlayerShoot>();
         pi = player.gameObject.GetComponent<PlayerInputs>();
     }
 
@@ -32,7 +34,7 @@ public abstract class Interaction : MonoBehaviour
     {
         if (jugadorDentro)
         {
-            if (pi.interactAction.WasPressedThisFrame() && !ph.IsDying) Interactuar();
+            if (pi.interactAction.WasPressedThisFrame() && !ph.IsDying && !playerAmmo.InventoryOpen) Interactuar();
         }
     }
 

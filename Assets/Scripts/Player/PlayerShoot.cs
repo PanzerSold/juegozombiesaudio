@@ -30,6 +30,8 @@ public class PlayerShoot : MonoBehaviour
     private float shootTimer = 0;
 
     private bool inventoryOpen = false;
+
+    public bool InventoryOpen => inventoryOpen;
     
     //----- NUEVO CODIGO ----- Índice del arma que sostenías antes de la actual
     private Inventory.itemIndex lastWeapon = Inventory.itemIndex.None;
@@ -108,12 +110,11 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
-    private void ToggleInventory()
+    public void ToggleInventory()
     {
         inventoryOpen = !inventoryOpen;
         if (inventoryPanel != null) inventoryPanel.SetActive(inventoryOpen);
 
-        Time.timeScale = inventoryOpen ? 0f : 1f;
         Cursor.lockState = inventoryOpen ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = inventoryOpen;
 

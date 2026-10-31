@@ -25,7 +25,7 @@ public class FireTrap : Interaction
             {
                 textoInteraccion.gameObject.SetActive(true);
 
-                if (pi.interactAction.IsPressed() && !ph.IsDying)
+                if (pi.interactAction.IsPressed() && !ph.IsDying && !playerAmmo.InventoryOpen) 
                 {
                     Interactuar();
                 }

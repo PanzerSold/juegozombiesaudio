@@ -8,13 +8,6 @@ public class ZombieNavmesh : MonoBehaviour
     [SerializeField] private float repathInterval = 0.2f;
     [SerializeField] private float waypointReachDistance = 1f;
     [SerializeField] private float rotationSpeed = 10f;
-    //Pasos por intervalo (PlayOneShot), igual que el del player
-    [Header("Sonidos")]
-    [SerializeField] private AudioSource SFX_Steps;
-    [SerializeField] private AudioClip stepsClip;
-    [SerializeField] private float walkInterval = 0.6f;
-    [SerializeField] private float minStepSpeed = 0.5f;
-    private float walktimer = 0f;
     
 
     private NavMeshAgent agent;
@@ -49,13 +42,16 @@ public class ZombieNavmesh : MonoBehaviour
             return;
         }
 
-        if (isStunned) return;
+        if (isStunned)
+        { 
+            return;
+        }
 
         repathTimer -= Time.deltaTime;
         if (repathTimer > 0f) return;
         repathTimer = repathInterval;
 
-        agent.SetDestination(GetTarget());
+        agent.SetDestination(GetTarget());;
     }
 
     private Vector3 GetTarget()
@@ -115,21 +111,5 @@ public class ZombieNavmesh : MonoBehaviour
         if (isHolding == holding) return;
         isHolding = holding;
         ApplyStop();
-    }
-    //Un paso cada walkInterval mientras el agente se mueve
-    private void UpdateSteps()
-    {
-        if (SFX_Steps == null || stepsClip == null) return;
-
-        if (agent.velocity.magnitude > minStepSpeed)
-        {
-            walktimer += Time.deltaTime;
-            if (walktimer >= walkInterval)
-            {
-                SFX_Steps.pitch = Random.Range(0.8f, 1.2f);
-                SFX_Steps.PlayOneShot(stepsClip);
-                walktimer = 0f;
-            }
-        }
     }
 }

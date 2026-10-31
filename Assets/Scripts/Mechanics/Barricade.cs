@@ -19,7 +19,7 @@ public class Barricade : Interaction
     //----- NUEVO CODIGO ----- Se calcula en Start según las tablas activas
     private int barricadasRestantes;
     //----- NUEVO CODIGO -----
-
+    
     public int zombiesClose = 0;
 
     private Animator animZombie;
@@ -44,7 +44,7 @@ public class Barricade : Interaction
             {
                 textoInteraccion.gameObject.SetActive(true);
 
-                if (pi.interactAction.IsPressed() && !ph.IsDying)
+                if (pi.interactAction.IsPressed() && !ph.IsDying && !playerAmmo.InventoryOpen)
                 {
                     Interactuar();
                 }

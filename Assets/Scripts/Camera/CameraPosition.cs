@@ -23,6 +23,7 @@ public class CameraPosition : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float ColisionSafety = 0.1f;
 
+    
 
     void Start()
     {

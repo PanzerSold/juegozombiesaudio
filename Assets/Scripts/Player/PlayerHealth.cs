@@ -22,6 +22,7 @@ public class PlayerHealth : MonoBehaviour
     private bool isDying = false;
 
     public bool IsDying => isDying;
+    private PlayerShoot playerAmmo;
     private Animator anim;
 
     private void Start()
@@ -30,6 +31,7 @@ public class PlayerHealth : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         healthBar = GetComponent<HealthBar>();
         player = GetComponent<Player>();
+        playerAmmo = GetComponent<PlayerShoot>();
     }
 
     public void GainHealth(int bonusHealth)
@@ -74,6 +76,7 @@ public class PlayerHealth : MonoBehaviour
 
     private IEnumerator Dead()
     {
+        playerAmmo.ToggleInventory();
         isDying = true;
         anim.Play("Died", 0, 0f);
         anim.SetLayerWeight(1, 0f);
