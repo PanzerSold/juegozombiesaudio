@@ -1119,6 +1119,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MaquinaArmas (B)
       objectReference: {fileID: 0}
+    - target: {fileID: 4059323923924282965, guid: fc9d1e1220146f841a132a2938437f22, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4822490891637465596, guid: fc9d1e1220146f841a132a2938437f22, type: 3}
       propertyPath: m_Volume
       value: 0.2
@@ -9868,6 +9872,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MaquinaArmas (A)
       objectReference: {fileID: 0}
+    - target: {fileID: 4059323923924282965, guid: fc9d1e1220146f841a132a2938437f22, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4822490891637465596, guid: fc9d1e1220146f841a132a2938437f22, type: 3}
       propertyPath: m_Volume
       value: 0.2
@@ -14236,6 +14244,10 @@ PrefabInstance:
     - target: {fileID: 4059323923924282965, guid: fc9d1e1220146f841a132a2938437f22, type: 3}
       propertyPath: m_Name
       value: MaquinaArmas (C)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4059323923924282965, guid: fc9d1e1220146f841a132a2938437f22, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4822490891637465596, guid: fc9d1e1220146f841a132a2938437f22, type: 3}
       propertyPath: m_Volume
@@ -23730,6 +23742,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MaquinaRandom
       objectReference: {fileID: 0}
+    - target: {fileID: 1058575190388714187, guid: 9639f1a2f8bd132489c34077965714ae, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1719505085700046461, guid: 9639f1a2f8bd132489c34077965714ae, type: 3}
       propertyPath: m_Volume
       value: 0.2
@@ -23856,6 +23872,10 @@ PrefabInstance:
     - target: {fileID: 1516614588075952682, guid: e6d509834efb41f43a10b929a30ac476, type: 3}
       propertyPath: m_Name
       value: MaquinaMejoras
+      objectReference: {fileID: 0}
+    - target: {fileID: 1516614588075952682, guid: e6d509834efb41f43a10b929a30ac476, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3343953363472528465, guid: e6d509834efb41f43a10b929a30ac476, type: 3}
       propertyPath: m_Volume
