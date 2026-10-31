@@ -152,7 +152,7 @@ public class HealthBar : MonoBehaviour
 
     private IEnumerator VisualMaxAmmo()
     {
-        textMaxAmmo.text = "+ 50";
+        textMaxAmmo.text = "All weapons filled";
         textMaxAmmo.gameObject.SetActive(true);
         yield return new WaitForSeconds(2f);
         textMaxAmmo.gameObject.SetActive(false);

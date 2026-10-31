@@ -205,13 +205,23 @@ public class Player : MonoBehaviour
     {
         if (bonus == PlayerBonus.MaxAmmo)
         {
-            playerAmmo.Gun.RechargeAmmo();
-            playerAmmo.Gun.GainAmmo(50);
+            Inventory.itemIndex[] weapons = inv.getAllWeapons();
+
+            foreach (Inventory.itemIndex weapon in weapons)
+            {
+                if (weapon == Inventory.itemIndex.None) continue;
+
+                Inventory.itemIndex ammoType = Inventory.GetAmmoFor(weapon);
+
+                if (ammoType != Inventory.itemIndex.None) inv.FindAndFillFirst(ammoType);
+            }
+
+            if (playerAmmo.Gun != null) playerAmmo.Gun.FillMagazine();
+
             HealthBar healthBar = GetComponent<HealthBar>();
             healthBar.VisualMaxAmmoText();
             return;
         }
-
         if (bonus == PlayerBonus.Wings)
         {
             hasWings = true;
