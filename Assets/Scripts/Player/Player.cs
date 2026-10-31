@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,6 +21,9 @@ public class Player : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI textPoints;
     [SerializeField] private AudioSource BarrierBuildSfx;
+    [SerializeField] private AudioSource SFX_PowerUp; //Sfx del power up
+    [SerializeField] private AudioSource SFX_Steps; //Sfx de los pasos
+    [SerializeField] private AudioClip stepsClip; //Sfx de los pasos
     private PlayerShoot playerAmmo;
     private string pointsStart;
     public int points = 0;
@@ -58,6 +60,9 @@ public class Player : MonoBehaviour
     private float verticalMovement = -2f;
     private CharacterController cc;
 
+    private float walktimer = 0f;
+
+    [SerializeField] private float walkInterval = 0.5f;
     [SerializeField] private PlayerInputs pi;
     [SerializeField] private Inventory inv;
     [SerializeField] private PlayerHealth ph;
@@ -114,8 +119,8 @@ public class Player : MonoBehaviour
             anim.SetFloat("Zspeed", forwardMovement);
             playerMovement = new Vector3(horizontalMovement, verticalMovement, forwardMovement);
             Quaternion rotacion = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
-            playerMovement = rotacion*playerMovement;
-        } 
+            playerMovement = rotacion * playerMovement;
+        }
         else
         {
             anim.SetLayerWeight(1, 0f);
@@ -125,8 +130,21 @@ public class Player : MonoBehaviour
         }
 
         cc.Move(playerMovement * Time.deltaTime);
-        
+        if (playerMovement.magnitude > 2f && isGrounded && !ph.IsDying)
+        {
+
+            walktimer += Time.deltaTime;
+            if (walktimer >= walkInterval)
+            {
+              SFX_Steps.pitch = Random.Range(0.8f, 1.2f); SFX_Steps.PlayOneShot(stepsClip);
+              walktimer = 0f;
+                Debug.Log(playerMovement.magnitude);
+
+            }
+        }
     }
+
+
 
     public IEnumerator Shield()
     {
@@ -151,6 +169,7 @@ public class Player : MonoBehaviour
             if (pu != null)
             {
                 PlayerBonus bonus = pu.pu;
+                if (SFX_PowerUp != null) SFX_PowerUp.Play(); //Suena al agarrar cualquier mejora (En teoria)
                 ActivatePowerUp(bonus);
             }
             Destroy(other.gameObject);

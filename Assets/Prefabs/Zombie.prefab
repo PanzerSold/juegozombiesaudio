@@ -5862,6 +5862,10 @@ MonoBehaviour:
   repathInterval: 0.2
   waypointReachDistance: 1
   rotationSpeed: 10
+  SFX_Steps: {fileID: 0}
+  stepsClip: {fileID: 0}
+  walkInterval: 0.6
+  minStepSpeed: 0.5
 --- !u!54 &4528784402512057155
 Rigidbody:
   m_ObjectHideFlags: 0

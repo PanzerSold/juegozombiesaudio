@@ -8,6 +8,7 @@ public class FireTrap : Interaction
     [SerializeField] private Transform FuegosParent;
     [SerializeField] private BoxCollider FuegoTrigger;
     [SerializeField] private ParticleSystem[] losfueguitos;
+    [SerializeField] protected AudioSource SFX_Fuego;
     private bool isFireActive = false;
 
     protected override void Start()
@@ -42,6 +43,7 @@ public class FireTrap : Interaction
         {
             StartCoroutine(ActivarFuego());
             SFX_Comprar.Play();
+            SFX_Fuego.Play();
         }
         else
         {

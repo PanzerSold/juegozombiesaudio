@@ -9,6 +9,9 @@ public class PlayerHealth : MonoBehaviour
 
     [SerializeField] private ParticleSystem bloodParticle;
 
+    [SerializeField] private AudioSource SFX_BrokenShield;//Sfx del escudo rompiendose
+    [SerializeField] private AudioSource SFX_Gethurt; 
+    [SerializeField] private AudioSource SFX_Die; 
     public int health = 6;
     private HealthBar healthBar;
     private Player player;
@@ -53,6 +56,7 @@ public class PlayerHealth : MonoBehaviour
             player.shieldAvailable = false;
             UnityEvents.shielded.Invoke(false);
             player.StartCoroutine(player.Shield());
+            SFX_BrokenShield.Play(); //Al recibir daño con el escudo, se reproduce el sonido del escudo rompiendose
             return;
         }
         if (bloodParticle != null) bloodParticle.Play();
@@ -60,9 +64,12 @@ public class PlayerHealth : MonoBehaviour
         healthBar.OnHealthChange(health);
         if (health <= 0)
         {
+            SFX_Die.Play(); //Al morir, se reproduce el sonido de la muerte
             StartCoroutine(Dead());
 
         }
+        SFX_Gethurt.pitch = Random.Range(0.8f, 1.2f); //Se le da un pitch random al sonido del daño para que no se escuche repetitivo
+        SFX_Gethurt.Play(); //Al recibir daño, se reproduce el sonido del daño
     }
 
     private IEnumerator Dead()
