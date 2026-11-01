@@ -6,6 +6,7 @@ public class PauseMenu : MonoBehaviour
     [Header("Paneles")]
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject optionsPanel;
+    [SerializeField] private GameObject reticula;
 
     public bool isPaused { get; private set; }
 
@@ -23,6 +24,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f;
         pausePanel.SetActive(true);
         optionsPanel.SetActive(false);
+        reticula.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -33,6 +35,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         pausePanel.SetActive(false);
         optionsPanel.SetActive(false);
+        reticula.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
