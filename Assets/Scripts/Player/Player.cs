@@ -66,6 +66,7 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerInputs pi;
     [SerializeField] private Inventory inv;
     [SerializeField] private PlayerHealth ph;
+    [SerializeField] private HealthBar healthBar;
     [SerializeField] private ParticleSystem PlayerFire;
     [SerializeField] private ParticleSystem psWings;
 
@@ -97,7 +98,6 @@ public class Player : MonoBehaviour
         {
             if (timeLeft != lastTimeLeft)
             {
-                HealthBar healthBar = GetComponent<HealthBar>();
                 healthBar.shieldTime.gameObject.SetActive(true);
                 healthBar.shieldTimeText.gameObject.SetActive(true);
                 healthBar.shieldTimeText.text = timeLeft + "s";
@@ -155,13 +155,10 @@ public class Player : MonoBehaviour
         }
     }
 
-
-
     public IEnumerator Shield()
     {
         shieldCooldownTimer = 0;
         yield return new WaitForSeconds(shieldCooldown);
-        HealthBar healthBar = GetComponent<HealthBar>();
         healthBar.shieldTime.gameObject.SetActive(false);
         healthBar.shieldTimeText.gameObject.SetActive(false);
         shieldAvailable = true;
@@ -203,6 +200,12 @@ public class Player : MonoBehaviour
 
     private void ActivatePowerUp(PlayerBonus bonus)
     {
+        if (bonus == PlayerBonus.DoublePoints) StartCoroutine(healthBar.VisualPowerUpText("Double points"));
+
+        if (bonus == PlayerBonus.Discount) StartCoroutine(healthBar.VisualPowerUpText("Everything's on discount"));
+
+        if (bonus == PlayerBonus.HeadShots) StartCoroutine(healthBar.VisualPowerUpText("Headshots are deadly"));
+
         if (bonus == PlayerBonus.MaxAmmo)
         {
             Inventory.itemIndex[] weapons = inv.getAllWeapons();
@@ -218,14 +221,13 @@ public class Player : MonoBehaviour
 
             if (playerAmmo.Gun != null) playerAmmo.Gun.FillMagazine();
 
-            HealthBar healthBar = GetComponent<HealthBar>();
-            healthBar.VisualMaxAmmoText();
+            StartCoroutine(healthBar.VisualPowerUpText("All weapons filled"));
             return;
         }
         if (bonus == PlayerBonus.Wings)
         {
             hasWings = true;
-
+            StartCoroutine(healthBar.VisualPowerUpText("You feel faster"));
             if (psWings != null)
             {
                 psWings.Play();

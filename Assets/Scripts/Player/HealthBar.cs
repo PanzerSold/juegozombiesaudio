@@ -22,7 +22,6 @@ public class HealthBar : MonoBehaviour
     private Coroutine rebirthCoroutine;
     [SerializeField] private float rebirthDuration = 3f;
     [SerializeField] private Color rebirthStartColor = new Color(0.5f, 0.9f, 1f, 1f);
-    [SerializeField] private TextMeshProUGUI textRebirth;
 
     [Header("Power Ups")]
     private RawImage[] powerUps;
@@ -90,7 +89,7 @@ public class HealthBar : MonoBehaviour
             if (rebirthParticle != null) rebirthParticle.Play();
             SFX_RebirthSound.Play(); //Al recibir el rebirth, se reproduce el sonido del rebirth
             rebirthCoroutine = StartCoroutine(VisualRebirth());
-            StartCoroutine(VisualRebirthText());
+            StartCoroutine(VisualPowerUpText("Rebirth!"));
         }
 
         UnityEvents.onPerkActive.Invoke();
@@ -145,25 +144,12 @@ public class HealthBar : MonoBehaviour
         }
     }
 
-    public void VisualMaxAmmoText()
+    public IEnumerator VisualPowerUpText(string text)
     {
-        StartCoroutine(VisualMaxAmmo());
-    }
-
-    private IEnumerator VisualMaxAmmo()
-    {
-        textMaxAmmo.text = "All weapons filled";
+        textMaxAmmo.text = "" + text;
         textMaxAmmo.gameObject.SetActive(true);
         yield return new WaitForSeconds(2f);
         textMaxAmmo.gameObject.SetActive(false);
-    }
-
-    private IEnumerator VisualRebirthText()
-    {
-        textRebirth.text = "Rebirth!";
-        textRebirth.gameObject.SetActive(true);
-        yield return new WaitForSeconds(3f);
-        textRebirth.gameObject.SetActive(false);
     }
 
     private IEnumerator VisualRebirth()
