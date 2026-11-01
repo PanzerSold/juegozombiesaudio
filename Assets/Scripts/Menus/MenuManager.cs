@@ -7,7 +7,6 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private RectTransform mainMenu;
     [SerializeField] private RectTransform optionsMenu;
     [SerializeField] private RectTransform informationMenu;
-    [SerializeField] private RectTransform keybindMenu;
     [SerializeField] private float transitionDuration = 0.5f;
     [SerializeField] private float screenWidth = 1920f;
 
@@ -21,11 +20,9 @@ public class MenuManager : MonoBehaviour
         mainMenu.anchoredPosition = Vector2.zero;
         informationMenu.anchoredPosition = Vector2.right * screenWidth;
         optionsMenu.anchoredPosition = Vector2.left * screenWidth;
-        keybindMenu.anchoredPosition = Vector2.left * screenWidth;
 
         informationMenu.gameObject.SetActive(false);
         optionsMenu.gameObject.SetActive(false);
-        keybindMenu.gameObject.SetActive(false);
     }
     public void StartGame()
     {
@@ -42,11 +39,6 @@ public class MenuManager : MonoBehaviour
     public void OpenOptions()
     {
         TransitionTo(optionsMenu);
-    }
-
-    public void OpenKeybinds()
-    {
-        TransitionTo(keybindMenu);
     }
 
     public void BackToMenu()
@@ -74,26 +66,8 @@ public class MenuManager : MonoBehaviour
 
         float direction;
 
-        if (previousMenu == keybindMenu && nextMenu == optionsMenu)
-        {
-            direction = 1f;
-        }
-        else if (nextMenu == informationMenu)
-        {
-            direction = 1f;
-        }
-        else if (nextMenu == optionsMenu || nextMenu == keybindMenu)
-        {
-            direction = -1f;
-        }
-        else if (previousMenu == informationMenu || previousMenu == keybindMenu)
-        {
-            direction = -1f;
-        }
-        else
-        {
-            direction = 1f;
-        }
+        if (nextMenu == informationMenu) direction = 1f;
+        else direction = 1f;
 
         nextMenu.gameObject.SetActive(true);
 
