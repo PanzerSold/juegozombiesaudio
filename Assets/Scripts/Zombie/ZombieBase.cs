@@ -61,7 +61,7 @@ public class ZombieBase : MonoBehaviour
     [SerializeField] private AudioSource zombieAudio;
 
     [SerializeField] private bool gonza = false;
-
+    private AudioSource bosstheme;
     public void ChangeSpeed(int index)
     {
         if (!gonza)
@@ -72,6 +72,12 @@ public class ZombieBase : MonoBehaviour
         }
 
     }
+
+    public void AsignMusic(AudioSource musicSource)
+    {
+        bosstheme = musicSource;
+        bosstheme.Play();
+    }    
 
 
     void Start()
@@ -104,8 +110,7 @@ public class ZombieBase : MonoBehaviour
         //----- NUEVO CODIGO ----- Le pasa la velocidad al agente
         // nav.SetSpeed(speedValues[speedIndex]); - CODIGO QUITADO, ahora cuando termina la animacion de spawnear ahi recien le da la velocidad correcta
         //----- NUEVO CODIGO -----
-        health = rm.SetHealthBasedOnRound();
-        StartCoroutine(SpawnZombie());
+
     }
 
     private IEnumerator SpawnZombie()
@@ -229,6 +234,10 @@ public class ZombieBase : MonoBehaviour
         rm.RemoveZombie(this);
         pus.Spawn();
         SFX_ZombieDeath.Play();
+        if (bosstheme != null)
+        {
+            bosstheme.Stop();
+        }
         GameObject z_Ragdoll = Instantiate(zombieRagdoll, transform.position, transform.rotation);
         Destroy(gameObject);
     }
@@ -286,7 +295,6 @@ public class ZombieBase : MonoBehaviour
         }
             //----- NUEVO CODIGO ----- 
         if (other.CompareTag("Fire") && !isBurning && !gonza)
-        if (other.CompareTag("Fire") && !isBurning)
         {
             isBurning = true;
             StartCoroutine(Burn());

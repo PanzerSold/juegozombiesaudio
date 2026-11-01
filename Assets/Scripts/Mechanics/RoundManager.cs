@@ -12,6 +12,8 @@ public class RoundManager : MonoBehaviour
 
     [SerializeField] GameObject gonzaPrefab;
 
+    [SerializeField] AudioSource musicSource;
+
     [SerializeField] int gonzaBaseHealth = 100;
 
     private bool gonzaSpawned = false;
@@ -69,6 +71,7 @@ public class RoundManager : MonoBehaviour
 
         ZombieBase gonzaScript = newGonza.GetComponent<ZombieBase>();
 
+        gonzaScript.AsignMusic(musicSource);
         gonzaScript.goTo(nearestBarricadePos);
 
         zombieList.Add(gonzaScript);

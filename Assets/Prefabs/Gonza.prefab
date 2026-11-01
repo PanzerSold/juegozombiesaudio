@@ -1,5 +1,134 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1475981799894925421
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8415054598774878275}
+  - component: {fileID: 6062206774543140016}
+  m_Layer: 2
+  m_Name: ZombieDeath
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8415054598774878275
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475981799894925421}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3334717538684876010}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &6062206774543140016
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475981799894925421}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -1949492420168737780, guid: 1b715518eb107f44db88271539db3efc, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: ac6ac5c22cfdd754692f0d5e52ba887c, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.15
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 2
+  MaxDistance: 7
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &3043700579141215446
 GameObject:
   m_ObjectHideFlags: 0
@@ -5060,7 +5189,7 @@ Transform:
   m_Children:
   - {fileID: 3391312349169736244}
   - {fileID: 467295592991877197}
-  - {fileID: 3770945317905946105}
+  - {fileID: 3334717538684876010}
   - {fileID: 4636298502622607540}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5134,7 +5263,7 @@ BoxCollider:
     m_Bits: 1
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -5159,6 +5288,7 @@ MonoBehaviour:
   healChance: 0.0667
   pus: {fileID: 2163085699649589148}
   zombieRagdoll: {fileID: 7277187663294482894, guid: aaa360895ac833345a7b46d044e33a82, type: 3}
+  SFX_ZombieDeath: {fileID: 6062206774543140016}
   attackRange: 0.9
   zombieDamage: 1
   ps: {fileID: 7298432569968053434}
@@ -5166,8 +5296,8 @@ MonoBehaviour:
   - 1.6
   - 1.8
   - 2.4
-  speedIndex: 0
-  zombieAudio: {fileID: 2416553615003042340}
+  speedIndex: 2
+  zombieAudio: {fileID: 7011282383658419902}
   gonza: 1
 --- !u!114 &2163085699649589148
 MonoBehaviour:
@@ -5183,16 +5313,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PowerUpSpawner
   options:
   - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
-    effect: 0
-  - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
-    effect: 1
-  - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
-    effect: 2
-  - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
-    effect: 3
+    effect: 4
   - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
     effect: 4
-  dropChance: 0.075
+  - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
+    effect: 4
+  - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
+    effect: 4
+  - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
+    effect: 4
+  dropChance: 1
 --- !u!114 &3000551308473409701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5257,7 +5387,7 @@ NavMeshAgent:
   m_BaseOffset: 0.49999997
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!1 &8893183667652292471
+--- !u!1 &8528908692179596849
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5265,8 +5395,41 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3770945317905946105}
-  - component: {fileID: 2416553615003042340}
+  - component: {fileID: 3334717538684876010}
+  m_Layer: 2
+  m_Name: ZombiesAudio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3334717538684876010
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8528908692179596849}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5007184902382932098}
+  - {fileID: 8415054598774878275}
+  m_Father: {fileID: 8995434744334110509}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9220340379729080776
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5007184902382932098}
+  - component: {fileID: 7011282383658419902}
   m_Layer: 2
   m_Name: ZombieSource
   m_TagString: Untagged
@@ -5274,28 +5437,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3770945317905946105
+--- !u!4 &5007184902382932098
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8893183667652292471}
+  m_GameObject: {fileID: 9220340379729080776}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8995434744334110509}
+  m_Father: {fileID: 3334717538684876010}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &2416553615003042340
+--- !u!82 &7011282383658419902
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8893183667652292471}
+  m_GameObject: {fileID: 9220340379729080776}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -1949492420168737780, guid: 1b715518eb107f44db88271539db3efc, type: 2}
