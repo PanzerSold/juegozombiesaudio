@@ -150,6 +150,7 @@ public class Inventory : MonoBehaviour
                 return Item.empty;
             case itemIndex.Balas_Pistola:
             case itemIndex.Balas_Rifle:
+            case itemIndex.Balas_Sniper:
             case itemIndex.Balas_Subfusil:
             case itemIndex.Balas_Escopeta:
             case itemIndex.Balas_Lanzacohete:
@@ -322,19 +323,28 @@ public class Inventory : MonoBehaviour
 
         OnInventoryChanged?.Invoke();
     }
-    
-    
+
+
     public bool FindAndFillFirst(itemIndex ammo)
     {
-        for(int i = 0; i < SlotCount; i++)
+        int limit = GetLimit(ammo);
+        if (limit <= 0) return false;
+
+        for (int i = 0; i < SlotCount; i++)
         {
-            if (actualInventory[i].index == ammo && actualInventory[i].amount < GetLimit(actualInventory[i].index))
+            if (actualInventory[i].item == itemType.Ammo &&
+                actualInventory[i].index == ammo)
             {
-                actualInventory[i].amount = GetLimit(actualInventory[i].index);
+                actualInventory[i].amount = limit;
                 OnInventoryChanged?.Invoke();
                 return true;
-                
             }
+        }
+
+        if (PlaceInEmptySlot(CreateItem(ammo, limit)))
+        {
+            OnInventoryChanged?.Invoke();
+            return true;
         }
         return false;
     }

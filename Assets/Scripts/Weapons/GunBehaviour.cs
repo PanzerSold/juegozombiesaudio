@@ -239,6 +239,13 @@ public class GunBehaviour : MonoBehaviour
         
     }
 
+    public void FillMagazine()
+    {
+        CancelReload();
+        ammoCurrent = ammoMax;
+        RefreshAmmoText();
+    }
+
     public void GainAmmo(int gainedAmmo)
     {
         inventory.AddItem(Inventory.CreateItem(AmmoType, gainedAmmo));

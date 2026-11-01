@@ -34,7 +34,7 @@ public abstract class Interaction : MonoBehaviour
     {
         if (jugadorDentro)
         {
-            if (pi.interactAction.WasPressedThisFrame() && !ph.IsDying && !playerAmmo.InventoryOpen) Interactuar();
+            if (pi.interactAction.WasPressedThisFrame() && !ph.IsDying && !playerAmmo.InventoryOpen && !player.IsVaulting) Interactuar();
         }
     }
 

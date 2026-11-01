@@ -39,6 +39,8 @@ public class PlayerShoot : MonoBehaviour
     private PlayerHealth ph;
     private Animator anim;
 
+    private Player player;
+
     //----- NUEVO CODIGO -----
     private void Awake()
     {
@@ -63,6 +65,7 @@ public class PlayerShoot : MonoBehaviour
         ph = GetComponent<PlayerHealth>();
         anim = GetComponentInChildren<Animator>();
         pi = gameObject.GetComponent<PlayerInputs>();
+        player = GetComponent<Player>();
         EquipWeapon(inventory.EquippedWeapon);
     }
 
@@ -129,7 +132,7 @@ public class PlayerShoot : MonoBehaviour
 
     private void Update()
     {
-        if (pi.inventoryAction.WasPressedThisFrame() && !ph.IsDying)
+        if (pi.inventoryAction.WasPressedThisFrame() && !ph.IsDying && !player.IsVaulting)
         {
             ToggleInventory();
         }

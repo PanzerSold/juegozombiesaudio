@@ -76,7 +76,10 @@ public class PlayerHealth : MonoBehaviour
 
     private IEnumerator Dead()
     {
-        playerAmmo.ToggleInventory();
+        if (playerAmmo.InventoryOpen)
+        {
+            playerAmmo.ToggleInventory();
+        }
         isDying = true;
         anim.Play("Died", 0, 0f);
         anim.SetLayerWeight(1, 0f);

@@ -74,7 +74,6 @@ public class ZombieBase : MonoBehaviour
     {
         speedIndex = index;
         nav.SetSpeed(speedValues[index]);
-        Debug.Log(index + " " + speedIndex);
 
     }
 
@@ -115,7 +114,6 @@ public class ZombieBase : MonoBehaviour
 
         nav.SetSpeed(speedValues[speedIndex]);
 
-        Debug.Log("after anim" + speedIndex);
     }
 
 
