@@ -5853,7 +5853,7 @@ MonoBehaviour:
   SFX_ZombieDeath: {fileID: 2170908724647351769}
   attackRange: 0.9
   zombieDamage: 1
-  ps: {fileID: 7298432569968053434}
+  ps: {fileID: 6072628721838998817, guid: 5e5e57341d58611428d7ad9049c8cb5f, type: 3}
   speedValues:
   - 1.6
   - 1.8
