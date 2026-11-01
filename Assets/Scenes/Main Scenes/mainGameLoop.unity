@@ -3769,7 +3769,7 @@ PrefabInstance:
       objectReference: {fileID: 7433419466059719595}
     - target: {fileID: 5270674855497152813, guid: 4b75b4deedc44384091989b6dba7516c, type: 3}
       propertyPath: puntosRequeridos
-      value: 1200
+      value: 1450
       objectReference: {fileID: 0}
     - target: {fileID: 5270674855497152813, guid: 4b75b4deedc44384091989b6dba7516c, type: 3}
       propertyPath: textoInteraccion
