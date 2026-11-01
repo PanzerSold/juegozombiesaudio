@@ -22465,7 +22465,7 @@ MonoBehaviour:
   gonzaPrefab: {fileID: 7277187663294482894, guid: a57161c165973064daf0631dce9b50f3, type: 3}
   musicSource: {fileID: 921748989}
   gonzaBaseHealth: 100
-  currentRound: 10
+  currentRound: 1
   mapActivity: 0
 --- !u!4 &2079259454
 Transform:
