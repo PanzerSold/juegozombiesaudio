@@ -1,6 +1,7 @@
 
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ZombieBase : MonoBehaviour
 {
@@ -70,10 +71,16 @@ public class ZombieBase : MonoBehaviour
 
     [SerializeField] private AudioSource zombieAudio;
 
+    [SerializeField] private bool gonza = false;
+
     public void ChangeSpeed(int index)
     {
-        speedIndex = index;
-        nav.SetSpeed(speedValues[index]);
+        if (!gonza)
+        {
+            speedIndex = index;
+            nav.SetSpeed(speedValues[index]);
+
+        }
 
     }
 
@@ -91,9 +98,23 @@ public class ZombieBase : MonoBehaviour
         playerHealth = playerObject.GetComponent<PlayerHealth>();
         //----- NUEVO CODIGO -----
         rm = GameObject.FindWithTag("RoundManager").GetComponent<RoundManager>();
-        health = rm.SetHealthBasedOnRound();
+        if (!gonza)
+        {
+            health = rm.SetHealthBasedOnRound();
+        }
+        else
+        {
+            health = rm.SetGonzaHealthBasedOnRound();
+        }
         //----- NUEVO CODIGO ----- coroutina para q haga primero la anim de spawnear
-        StartCoroutine(SpawnZombie());
+        if (!gonza)
+        {
+            StartCoroutine(SpawnZombie());
+        }
+        else
+        {
+            nav.SetSpeed(speedValues[speedIndex]);
+        }
         //----- NUEVO CODIGO ----- Le pasa la velocidad al agente
         // nav.SetSpeed(speedValues[speedIndex]); - CODIGO QUITADO, ahora cuando termina la animacion de spawnear ahi recien le da la velocidad correcta
         //----- NUEVO CODIGO -----
@@ -103,8 +124,11 @@ public class ZombieBase : MonoBehaviour
     private IEnumerator SpawnZombie()
     {
         nav.SetSpeed(0f);
-
-        anim.Play("rise", 0, 0f);
+        
+        if(anim!= null)
+        {
+            anim.Play("rise", 0, 0f);
+        }
 
         double inicio = AudioSettings.dspTime + Random.Range(0.1f, 0.5f);
 
@@ -146,8 +170,10 @@ public class ZombieBase : MonoBehaviour
     private void FixedUpdate()
     {
         float actualSpeed = isStunned ? 0 : speedValues[speedIndex];
-
-        anim.SetFloat("Speed", actualSpeed);
+        if (anim != null)
+        {
+            anim.SetFloat("Speed", actualSpeed);
+        }
 
     }
 
@@ -247,7 +273,10 @@ public class ZombieBase : MonoBehaviour
     {
         isAttacking = true;
 
-        anim.Play("attack", 0, 0f);
+        if(anim != null)
+        {
+            anim.Play("attack", 0, 0f);
+        }
 
         yield return new WaitForSeconds(0.3f);
         Vector3 diff = playerTransform.position - transform.position;
@@ -284,13 +313,16 @@ public class ZombieBase : MonoBehaviour
             {
                 ultimabarricada = other.GetComponentInParent<Barricade>();
                 ultimabarricada.zombiesClose++;
-                ultimabarricada.GetZombieAnim(anim);
+                if (anim != null)
+                {
+                    ultimabarricada.GetZombieAnim(anim);
+                }
                 destroyingBarricade = true;
             }
             //----- NUEVO CODIGO -----
         }
             //----- NUEVO CODIGO ----- 
-        if (other.CompareTag("Fire") && !isBurning)
+        if (other.CompareTag("Fire") && !isBurning && !gonza)
         {
             isBurning = true;
             StartCoroutine(Burn());

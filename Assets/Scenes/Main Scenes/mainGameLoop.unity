@@ -10311,6 +10311,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7635a373afcf7be4698d697a7632edd9, type: 3}
   m_PrefabInstance: {fileID: 1211587295}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1095736649 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 7635a373afcf7be4698d697a7632edd9, type: 3}
+  m_PrefabInstance: {fileID: 1211587295}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1100787713 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4887692034885589234, guid: 4b75b4deedc44384091989b6dba7516c, type: 3}
@@ -11751,9 +11756,9 @@ MonoBehaviour:
   textPurchase: {fileID: 0}
   SFX_FaltaPlata: {fileID: 0}
   SFX_Comprar: {fileID: 0}
-  animator: {fileID: 0}
+  animator: {fileID: 1095736649}
   vaultDuration: 1.875
-  vaultDistance: 0.85
+  vaultDistance: 0.7
   movementCurve:
     serializedVersion: 2
     m_Curve:
@@ -11761,16 +11766,25 @@ MonoBehaviour:
       time: 0
       value: 0
       inSlope: 0
-      outSlope: 1
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 0.46320513
+      value: 0.13106225
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 1
       value: 1
       inSlope: 1
-      outSlope: 0
+      outSlope: 1
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -11778,7 +11792,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  vaultDirection: {fileID: 0}
+  vaultDirection: {fileID: 1079946656}
   rotationSpeed: 720
 --- !u!65 &1267121150
 BoxCollider:
@@ -22049,6 +22063,9 @@ MonoBehaviour:
   ZombieSpawnerMain: {fileID: 1317247690}
   roundText: {fileID: 2053374351}
   zombieObj: {fileID: 7277187663294482894, guid: 4a61699035a569a47af3c6c2cdcbd698, type: 3}
+  gonzaPrefab: {fileID: 7277187663294482894, guid: a57161c165973064daf0631dce9b50f3, type: 3}
+  gonzaBaseHealth: 100
+  currentRound: 9
   mapActivity: 0
 --- !u!4 &2079259454
 Transform:
