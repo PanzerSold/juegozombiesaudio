@@ -11053,6 +11053,15 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  pauseMenu:
+    m_Name: Pause Menu
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: bc6e4b5a-c858-4444-b1e5-18f907ba9afa
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!114 &1161843256
 MonoBehaviour:
   m_ObjectHideFlags: 0
