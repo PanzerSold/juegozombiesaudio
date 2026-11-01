@@ -21,6 +21,7 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private Slider ambientSlider;
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider sfxSlider;
+
     [SerializeField] private TMP_Text masterPercent;
     [SerializeField] private TMP_Text ambientPercent;
     [SerializeField] private TMP_Text musicPercent;
@@ -28,9 +29,6 @@ public class OptionsMenu : MonoBehaviour
 
     private void Start()
     {
-        Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
         SetupSlider(mouseSlider, mouseLabel, GameSettings.MouseSensitivity, v => GameSettings.MouseSensitivity = v);
         SetupSlider(stickSlider, stickLabel, GameSettings.StickSensitivity, v => GameSettings.StickSensitivity = v);
         SetupVolumeSlider(masterSlider, masterPercent, GameSettings.MasterVolume, v => GameSettings.MasterVolume = v, "MasterVolume");
@@ -57,6 +55,7 @@ public class OptionsMenu : MonoBehaviour
         SetVolume(mixerParameter, current);
         slider.onValueChanged.AddListener(v => {onChange(v); SetVolume(mixerParameter, v); label.text = Mathf.RoundToInt(v * 100f) + "%";});
     }
+
     private void SetVolume(string parameterName, float volume)
     {
         float dB = Mathf.Log10(Mathf.Max(volume, 0.0001f)) * 20f;

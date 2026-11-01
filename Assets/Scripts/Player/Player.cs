@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
@@ -69,6 +70,7 @@ public class Player : MonoBehaviour
     [SerializeField] private HealthBar healthBar;
     [SerializeField] private ParticleSystem PlayerFire;
     [SerializeField] private ParticleSystem psWings;
+    [SerializeField] private PauseMenu pauseMenu;
 
     private Animator anim;
 
@@ -89,6 +91,9 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (pi.pauseMenu.WasPressedThisFrame()) pauseMenu.TogglePause();
+        if (pauseMenu.isPaused) return;
+
         shieldCooldownTimer += Time.deltaTime;
         timeLeft = Mathf.CeilToInt(shieldCooldown - shieldCooldownTimer);
         bool isGrounded = cc.isGrounded;

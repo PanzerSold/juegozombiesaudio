@@ -40,6 +40,7 @@ public class PlayerShoot : MonoBehaviour
     private Animator anim;
 
     private Player player;
+    [SerializeField] private PauseMenu pauseMenu;
 
     //----- NUEVO CODIGO -----
     private void Awake()
@@ -132,6 +133,7 @@ public class PlayerShoot : MonoBehaviour
 
     private void Update()
     {
+        if (pauseMenu.isPaused) return;
         if (pi.inventoryAction.WasPressedThisFrame() && !ph.IsDying && !player.IsVaulting)
         {
             ToggleInventory();
