@@ -11752,7 +11752,7 @@ MonoBehaviour:
   gravity: -9.8
   friction: 30
   shieldAvailable: 1
-  shieldCooldown: 3
+  shieldCooldown: 30
   psShield: {fileID: 524595894}
   psShieldBreak: {fileID: 474253170}
   textPoints: {fileID: 864710123}
@@ -11760,14 +11760,14 @@ MonoBehaviour:
   SFX_PowerUp: {fileID: 1602040730}
   SFX_Steps: {fileID: 962999631}
   stepsClip: {fileID: 8300000, guid: 0312098dfd2d2b442a339013faec08f9, type: 3}
-  points: 1000000
+  points: 500
   activePowerUps:
   - 20
   - 20
   - 20
   - 20
   - 0
-  activePerks: 0000000100000000
+  activePerks: 0000000000000000
   walkInterval: 0.5
   pi: {fileID: 0}
   inv: {fileID: 1161843257}
@@ -11788,7 +11788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28e17c99b0db10f40a29e73620928a2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  healthMax: 1
+  healthMax: 6
   invulnTime: 0.75
   bloodParticle: {fileID: 914774975}
   SFX_BrokenShield: {fileID: 1330470458}
