@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     private bool hasWings = false;
     public bool shieldAvailable = true;
     [SerializeField] private float shieldCooldown = 30f;
+    [SerializeField] private ParticleSystem psShield;
+    [SerializeField] private ParticleSystem psShieldBreak;
     private float shieldCooldownTimer;
     private int timeLeft;
     private int lastTimeLeft;
@@ -162,12 +164,22 @@ public class Player : MonoBehaviour
 
     public IEnumerator Shield()
     {
+        if (psShieldBreak != null)
+        {
+            psShieldBreak.Play();
+        }
+
         shieldCooldownTimer = 0;
         yield return new WaitForSeconds(shieldCooldown);
         healthBar.shieldTime.gameObject.SetActive(false);
         healthBar.shieldTimeText.gameObject.SetActive(false);
         shieldAvailable = true;
         UnityEvents.shielded.Invoke(true);
+        
+        if (psShield != null)
+        {
+            psShield.Play();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
