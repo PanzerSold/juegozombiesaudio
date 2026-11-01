@@ -11,6 +11,10 @@ public class Hammer : MonoBehaviour
     [SerializeField] private TextMeshProUGUI HammerText;
     [SerializeField] private PlayerInputs pi;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioSource SFX_Hammer;
+    [SerializeField] private AudioSource SFX_HammerOnCooldown;
+
     [SerializeField] private ParticleSystem hammerParticle;
     private PlayerHealth ph;
     private Color originalColor;
@@ -71,6 +75,7 @@ public class Hammer : MonoBehaviour
             if (!isOnCooldown)
             {
                 HammerStun();
+                SFX_Hammer.Play();
                 if (hammerParticle != null) hammerParticle.Play();
                 isOnCooldown = true;
                 cooldownTimer = 0;
@@ -78,7 +83,7 @@ public class Hammer : MonoBehaviour
             }
             else
             {
-                //acá va el reproducir sonido de fallo
+                SFX_HammerOnCooldown.Play();
             }
         }
 

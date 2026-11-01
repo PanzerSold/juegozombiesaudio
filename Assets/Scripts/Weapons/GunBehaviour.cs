@@ -1,11 +1,7 @@
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
-
-
 public class GunBehaviour : MonoBehaviour
 {
     [Header("Disparo")]
@@ -13,6 +9,7 @@ public class GunBehaviour : MonoBehaviour
     [SerializeField] protected float gunDamage = 1f;
     protected Camera cameraPos;
     [SerializeField] protected LayerMask coll;
+    [SerializeField] protected AudioClip shooteExplosiveClip;
     protected ParticleSystem ps;
 
     protected ParticleSystem[] psExplosiveAmmo = new ParticleSystem[3];
@@ -154,12 +151,13 @@ public class GunBehaviour : MonoBehaviour
 
     virtual public void Shoot()
     {
+        AudioClip clipToPlay = shootClip;
         RaycastHit hit;
         Vector3 origin = cameraPos.transform.position;
         Vector3 direction = cameraPos.transform.forward;
         Material impactMaterial = materialGenerico;
         shootSfx.pitch = Random.Range(minPitchShift, maxPitchShift);
-        shootSfx.PlayOneShot(shootClip);
+        
         FireAmmo();
         if (Physics.Raycast(origin, direction, out hit, raycastDistance, coll))
         {
@@ -167,6 +165,7 @@ public class GunBehaviour : MonoBehaviour
 
             if (player.activePerks[7])
             {
+                clipToPlay = shooteExplosiveClip;
                 float explosiveDamage = gunDamage * 2;
                 Collider[] colliders = Physics.OverlapSphere(hit.point, boomRadius);
                 List<ZombieBase> currentZombie = new List<ZombieBase>();
@@ -215,6 +214,7 @@ public class GunBehaviour : MonoBehaviour
             }
             
         }
+        shootSfx.PlayOneShot(clipToPlay);
     }
 
 

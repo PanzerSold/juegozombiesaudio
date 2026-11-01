@@ -23,38 +23,27 @@ public class ZombieBase : MonoBehaviour
     private PlayerShoot playerAmmo;
     private Transform playerTransform;
 
-    //----- Codigo borrado ----- El movimiento por waypoint ahora lo maneja ZombieNavmesh
-    // private bool scriptedMovement = false;
-    // private Vector3 scriptedDir = Vector3.zero;
-    //----- Codigo borrado -----
+
+    [Header("Sonidos")]
+    [SerializeField] private AudioSource SFX_ZombieDeath;
 
     private Rigidbody rb;
 
-    //----- NUEVO CODIGO ----- Referencia al script que mueve al zombie con el NavMesh
     private ZombieNavmesh nav;
-    //----- NUEVO CODIGO -----
 
 
-    //----- NUEVO CODIGO ----- Awake porque RoundManager llama a goTo justo después del Instantiate, antes del Start
     private void Awake()
     {
         nav = GetComponent<ZombieNavmesh>();
     }
-    //----- NUEVO CODIGO -----
 
-    //----- NUEVO CODIGO ----- Distancia a la que el zombie le pega al jugador (tiene que ser mayor al Stopping Distance del NavMeshAgent)
     [SerializeField] private float attackRange = 1.5f;
     private PlayerHealth playerHealth;
-    //----- NUEVO CODIGO -----
     private Barricade ultimabarricada;
 
-    //----- NUEVO CODIGO ----- Colliders de barricada que toca el zombie, y banderas para no morir ni quemarse dos veces
     private int barricadeContacts = 0;
     private bool isDead = false;
-    private bool isBurning = false; //por las dudas de que los zombies no golpeen la barricada y se quemen al mismo tiempo.
-    //----- NUEVO CODIGO -----
-
-    // [SerializeField] private float rotationSpeed = 10f; la rotacion depende del agente, no del rigidbody.
+    private bool isBurning = false;
 
     [SerializeField] private int zombieDamage = 1;
     [SerializeField] private ParticleSystem ps;
@@ -84,7 +73,6 @@ public class ZombieBase : MonoBehaviour
 
     }
 
-    // private float timerPos = 0f;
 
     void Start()
     {
@@ -94,9 +82,7 @@ public class ZombieBase : MonoBehaviour
         player = playerObject.GetComponent<Player>();
         playerAmmo = playerObject.GetComponent<PlayerShoot>();
         playerTransform = playerObject.transform;
-        //----- NUEVO CODIGO -----
         playerHealth = playerObject.GetComponent<PlayerHealth>();
-        //----- NUEVO CODIGO -----
         rm = GameObject.FindWithTag("RoundManager").GetComponent<RoundManager>();
         if (!gonza)
         {
@@ -118,9 +104,10 @@ public class ZombieBase : MonoBehaviour
         //----- NUEVO CODIGO ----- Le pasa la velocidad al agente
         // nav.SetSpeed(speedValues[speedIndex]); - CODIGO QUITADO, ahora cuando termina la animacion de spawnear ahi recien le da la velocidad correcta
         //----- NUEVO CODIGO -----
+        health = rm.SetHealthBasedOnRound();
+        StartCoroutine(SpawnZombie());
     }
 
-    //---NUEVO CODIGO--- spawnea el zombi sin velocidad, hace la anim de rise y cuando termina de hacerla pone la velocidad correcta :D
     private IEnumerator SpawnZombie()
     {
         nav.SetSpeed(0f);
@@ -141,17 +128,12 @@ public class ZombieBase : MonoBehaviour
     }
 
 
-    //----- Codigo borrado ----- Con el Rigidbody kinematic esta colisión ya no se dispara
-    // private void OnCollisionStay(Collision collision) => HitStay(collision);
-    //----- Codigo borrado -----
-
-    //----- NUEVO CODIGO ----- Frena al zombie si está en una barricada cerrada y ataca al jugador si está al alcance
     private void Update()
     {
         bool blockedByBarricade = destroyingBarricade && ultimabarricada != null && !ultimabarricada.isOpen;
         nav.SetHolding(blockedByBarricade);
 
-        if(!zombieAudio.isPlaying)
+        if (!zombieAudio.isPlaying)
         {
             zombieAudio.pitch = Random.Range(0.8f, 1.2f);
             zombieAudio.Play();
@@ -165,7 +147,6 @@ public class ZombieBase : MonoBehaviour
             StartCoroutine(Attack(playerHealth));
         }
     }
-    //----- NUEVO CODIGO -----
 
     private void FixedUpdate()
     {
@@ -181,15 +162,11 @@ public class ZombieBase : MonoBehaviour
     public async void Stun()
     {
         isStunned = true;
-        //----- NUEVO CODIGO ----- Frena al agente mientras está aturdido
         nav.SetStunned(true);
-        //----- NUEVO CODIGO -----
         await Awaitable.WaitForSecondsAsync(2f);
         if (this == null) return;
         isStunned = false;
-        //----- NUEVO CODIGO ----- Lo vuelve a mover
         nav.SetStunned(false);
-        //----- NUEVO CODIGO -----
     }
     public void ReceiveDamage(bool isHeadshot, float damage)
     {
@@ -251,11 +228,11 @@ public class ZombieBase : MonoBehaviour
         //----- NUEVO CODIGO -----
         rm.RemoveZombie(this);
         pus.Spawn();
+        SFX_ZombieDeath.Play();
         GameObject z_Ragdoll = Instantiate(zombieRagdoll, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 
-    //----- NUEVO CODIGO ----- Resta un solo zombiesClose por zombie y nunca baja de 0
     private void ReleaseBarricade()
     {
         if (!destroyingBarricade) return;
@@ -266,7 +243,6 @@ public class ZombieBase : MonoBehaviour
         }
         ultimabarricada = null;
     }
-    //----- NUEVO CODIGO -----
 
 
     private IEnumerator Attack(PlayerHealth player)
@@ -291,23 +267,11 @@ public class ZombieBase : MonoBehaviour
 
     }
 
-    /*private void OnCollisionEnter(Collision collision)
-    {
-        PlayerHealth player = collision.gameObject.GetComponent<PlayerHealth>();
-
-        if (player != null)
-        {
-            player.LoseHealth(zombieDamage);
-        }
-    }*/
     public void OnTriggerEnter(Collider other)
     {
-        //----- NUEVO CODIGO ----- Un zombie muerto no vuelve a sumarse a una barricada
         if (isDead) return;
-        //----- NUEVO CODIGO -----
         if (other.CompareTag("ZombieBarricade"))
         {
-            //----- NUEVO CODIGO ----- Solo el primer collider suma a zombiesClose; los demás solo se cuentan
             barricadeContacts++;
             if (!destroyingBarricade)
             {
@@ -319,23 +283,20 @@ public class ZombieBase : MonoBehaviour
                 }
                 destroyingBarricade = true;
             }
-            //----- NUEVO CODIGO -----
         }
             //----- NUEVO CODIGO ----- 
         if (other.CompareTag("Fire") && !isBurning && !gonza)
+        if (other.CompareTag("Fire") && !isBurning)
         {
             isBurning = true;
             StartCoroutine(Burn());
         }
-            //----- NUEVO CODIGO -----
     }
 
     IEnumerator Burn()
     {
         isStunned = true;
-        //----- NUEVO CODIGO ----- Frena al agente mientras se quema
         nav.SetStunned(true);
-        //----- NUEVO CODIGO -----
         ps.Play();
         yield return new WaitForSeconds(1f);
         Despawn();
@@ -346,22 +307,13 @@ public class ZombieBase : MonoBehaviour
     {
         if (other.CompareTag("ZombieBarricade"))
         {
-            //----- NUEVO CODIGO ----- Libera la barricada recién al salir del último collider
             barricadeContacts = Mathf.Max(0, barricadeContacts - 1);
             if (barricadeContacts == 0) ReleaseBarricade();
-            //----- NUEVO CODIGO -----
         }
     }
     public void goTo(Vector3 position)
     {
-        //----- Codigo borrado -----
-        // scriptedMovement = true;
-        // scriptedDir = position;
-        //----- Codigo borrado -----
-
-        //----- NUEVO CODIGO ----- Ahora el punto de la barricada lo maneja ZombieNavmesh
         nav.SetWaypoint(position);
-        //----- NUEVO CODIGO -----
     }
 
 }

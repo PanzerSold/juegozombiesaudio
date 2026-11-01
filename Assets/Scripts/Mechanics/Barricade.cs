@@ -12,13 +12,11 @@ public class Barricade : Interaction
     public bool isOpen { get; private set; } = false;
     private bool cycle = false;
 
-    //----- Codigo borrado ----- Estaba fijo en 5 aunque la barricada tenga otra cantidad de tablas
-    // private int barricadasRestantes = 5;
-    //----- Codigo borrado -----
+    [SerializeField] private AudioSource SFX_GettingHit;
+    [SerializeField] private AudioSource SFX_GettingDestroyed;
 
-    //----- NUEVO CODIGO ----- Se calcula en Start según las tablas activas
+
     private int barricadasRestantes;
-    //----- NUEVO CODIGO -----
     
     public int zombiesClose = 0;
 
@@ -28,13 +26,11 @@ public class Barricade : Interaction
         base.Start();
         fullString = "Repair barricade (E)";
 
-        //----- NUEVO CODIGO ----- Cuenta las tablas que arrancan activas
         barricadasRestantes = 0;
         for (int i = 0; i < barricades.Length; i++)
         {
             if (barricades[i] != null && barricades[i].activeSelf) barricadasRestantes++;
         }
-        //----- NUEVO CODIGO -----
     }
     protected override void Update()
     {
@@ -109,6 +105,7 @@ public class Barricade : Interaction
             {
                 if(woodParticle != null) woodParticle.Play();
                 barricades[i].SetActive(false);
+                SFX_GettingHit.Play();
                 barricadasRestantes--;
                 break;
             }
@@ -116,6 +113,7 @@ public class Barricade : Interaction
         if (barricadasRestantes <= 0 && ColliderPrincipal != null)
         {
             ColliderPrincipal.enabled = false;
+            SFX_GettingDestroyed.Play();
             isOpen = true;
         }
         if (animZombie != null)
