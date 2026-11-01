@@ -24444,6 +24444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenu
   pausePanel: {fileID: 1960150294}
   optionsPanel: {fileID: 2103062920}
+  reticula: {fileID: 462574372}
 --- !u!1 &2048338108
 GameObject:
   m_ObjectHideFlags: 0
