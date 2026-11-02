@@ -61,7 +61,6 @@ public class ZombieBase : MonoBehaviour
     [SerializeField] private AudioSource zombieAudio;
 
     [SerializeField] private bool gonza = false;
-    private ZombieBase gonzaInstance;
     private AudioSource bosstheme;
     public void ChangeSpeed(int index)
     {
@@ -111,7 +110,7 @@ public class ZombieBase : MonoBehaviour
         }
         else
         {
-            nav.SetSpeed(speedValues[speedIndex]);
+            nav.SetSpeed(gonzaSpeed);
         }
         //----- NUEVO CODIGO ----- Le pasa la velocidad al agente
         // nav.SetSpeed(speedValues[speedIndex]); - CODIGO QUITADO, ahora cuando termina la animacion de spawnear ahi recien le da la velocidad correcta

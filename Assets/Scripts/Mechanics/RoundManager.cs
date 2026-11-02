@@ -73,7 +73,6 @@ public class RoundManager : MonoBehaviour
 
         gonzaScript.AsignMusic(musicSource);
         gonzaScript.goTo(nearestBarricadePos);
-
         zombieList.Add(gonzaScript);
 
         gonzaSpawned = true;
