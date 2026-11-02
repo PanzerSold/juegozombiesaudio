@@ -37,11 +37,6 @@ public class FireTrap : Interaction
                 fullString = "Wait a while";
                 textoInteraccion.text = fullString;
                 textoInteraccion.gameObject.SetActive(true);
-
-                if (pi.interactAction.IsPressed() && !ph.IsDying && !playerAmmo.InventoryOpen)
-                {
-                    Interactuar();
-                }
             }
         }
     }
@@ -54,11 +49,6 @@ public class FireTrap : Interaction
             SFX_Comprar.Play();
             SFX_Fuego.Play();
             return;
-        }
-        else if (isFireActive)
-        {
-            StartCoroutine(VisualPurchase("The trap is already active"));
-            SFX_FaltaPlata.Play();
         }
         else
         {
