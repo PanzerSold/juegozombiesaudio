@@ -61,6 +61,12 @@ public class ZombieBase : MonoBehaviour
     [SerializeField] private AudioSource zombieAudio;
 
     [SerializeField] private bool gonza = false;
+<<<<<<< Updated upstream
+    private ZombieBase gonzaInstance;
+=======
+
+    [SerializeField] private float gonzaSpeed = 4f;
+>>>>>>> Stashed changes
     private AudioSource bosstheme;
     public void ChangeSpeed(int index)
     {
@@ -102,7 +108,6 @@ public class ZombieBase : MonoBehaviour
         else
         {
             health = rm.SetGonzaHealthBasedOnRound();
-        }
         //----- NUEVO CODIGO ----- coroutina para q haga primero la anim de spawnear
         if (!gonza)
         {
