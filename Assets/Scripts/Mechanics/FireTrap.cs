@@ -4,10 +4,11 @@ using UnityEngine;
 public class FireTrap : Interaction
 {
     protected override int PuntosRequeridos { get => base.PuntosRequeridos; set => base.PuntosRequeridos = value; }
-    [SerializeField] private float tiempoDeEspera = 10f; // AVISO, SI LO CAMBIAS, CAMBIAR DESPUES LOS PARTICLE SYSTEM
+    [SerializeField] private float tiempoDeEspera = 10f;
     [SerializeField] private Transform FuegosParent;
     [SerializeField] private BoxCollider FuegoTrigger;
     [SerializeField] private ParticleSystem[] losfueguitos;
+    [SerializeField] protected AudioSource SFX_Fuego;
     private bool isFireActive = false;
 
     protected override void Start()
@@ -22,16 +23,20 @@ public class FireTrap : Interaction
         {
             if (!isFireActive)
             {
+                fullString = "Activate trap (" + PuntosRequeridos + ") (E)";
+                textoInteraccion.text = fullString;
                 textoInteraccion.gameObject.SetActive(true);
 
-                if (pi.interactAction.IsPressed())
+                if (pi.interactAction.IsPressed() && !ph.IsDying && !playerAmmo.InventoryOpen) 
                 {
                     Interactuar();
                 }
             }
             else
             {
-                textoInteraccion.gameObject.SetActive(false);
+                fullString = "Wait a while";
+                textoInteraccion.text = fullString;
+                textoInteraccion.gameObject.SetActive(true);
             }
         }
     }
@@ -42,11 +47,29 @@ public class FireTrap : Interaction
         {
             StartCoroutine(ActivarFuego());
             SFX_Comprar.Play();
+            SFX_Fuego.Play();
+            return;
         }
         else
         {
             StartCoroutine(VisualPurchase("Not enough money"));
             SFX_FaltaPlata.Play();
+        }
+    }
+
+    public override void PlayerStay()
+    {
+        if (isFireActive)
+        {
+            fullString = "Wait a while";
+            textoInteraccion.text = fullString;
+            textoInteraccion.gameObject.SetActive(true);
+        }
+        else
+        {
+            fullString = "Activate trap (" + PuntosRequeridos + ") (E)";
+            textoInteraccion.text = fullString;
+            textoInteraccion.gameObject.SetActive(true);
         }
     }
 

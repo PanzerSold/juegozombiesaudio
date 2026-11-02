@@ -26,7 +26,10 @@ public class PowerUpSpawner : MonoBehaviour
 
         if (choosed.prefab == null) return;
 
-        GameObject newPowerUp = Instantiate(choosed.prefab, transform.position, Quaternion.identity);
+        // hola filo, disculpa que no use tu sistema
+        // att, luca
+
+        GameObject newPowerUp = Instantiate(choosed.prefab, transform.position, Quaternion.Euler(Vector3.left*90));
         PowerUp component = newPowerUp.GetComponent<PowerUp>();
 
         if (component != null) component.pu = choosed.effect;

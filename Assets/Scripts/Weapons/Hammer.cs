@@ -10,6 +10,13 @@ public class Hammer : MonoBehaviour
     [SerializeField] private RawImage hammerImage;
     [SerializeField] private TextMeshProUGUI HammerText;
     [SerializeField] private PlayerInputs pi;
+
+    [Header("Sounds")]
+    [SerializeField] private AudioSource SFX_Hammer;
+    [SerializeField] private AudioSource SFX_HammerOnCooldown;
+
+    [SerializeField] private ParticleSystem hammerParticle;
+    private PlayerHealth ph;
     private Color originalColor;
     private float cooldownTimer;
     private int timeLeft;
@@ -17,6 +24,7 @@ public class Hammer : MonoBehaviour
     void Awake()
     {
         pi = GetComponent<PlayerInputs>();
+        ph = GetComponent<PlayerHealth>();
         cooldownTimer = coolDown;
         lastTimeLeft = -1;
 
@@ -62,18 +70,20 @@ public class Hammer : MonoBehaviour
             }
         }
 
-        if (pi.skillAction.WasPressedThisFrame())
+        if (pi.skillAction.WasPressedThisFrame() && !ph.IsDying)
         {
             if (!isOnCooldown)
             {
                 HammerStun();
+                SFX_Hammer.Play();
+                if (hammerParticle != null) hammerParticle.Play();
                 isOnCooldown = true;
                 cooldownTimer = 0;
                 UnityEvents.onCooldownChanged.Invoke(true);
             }
             else
             {
-                //acá va el reproducir sonido de fallo
+                SFX_HammerOnCooldown.Play();
             }
         }
 

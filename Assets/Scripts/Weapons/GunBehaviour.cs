@@ -1,11 +1,7 @@
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
-
-
 public class GunBehaviour : MonoBehaviour
 {
     [Header("Disparo")]
@@ -13,9 +9,10 @@ public class GunBehaviour : MonoBehaviour
     [SerializeField] protected float gunDamage = 1f;
     protected Camera cameraPos;
     [SerializeField] protected LayerMask coll;
+    [SerializeField] protected AudioClip shooteExplosiveClip;
     protected ParticleSystem ps;
 
-    [SerializeField] protected ParticleSystem[] psExplosiveAmmo;
+    protected ParticleSystem[] psExplosiveAmmo = new ParticleSystem[3];
     [SerializeField] private float shootTime = 0.5f;
     protected ParticleSystemRenderer psR;
 
@@ -119,6 +116,11 @@ public class GunBehaviour : MonoBehaviour
         {
             ammoText.text = ammoCurrent + " / " + ammoQuantity;
         }
+        Transform explosionBulletGO = player.transform.Find("ExplosiveAmmo").transform;
+        for(int i = 0; i < explosionBulletGO.childCount; i++)
+        {
+            psExplosiveAmmo[i] = explosionBulletGO.GetChild(i).gameObject.GetComponent<ParticleSystem>();
+        }
 
         RefreshAmmoText();
 
@@ -149,12 +151,13 @@ public class GunBehaviour : MonoBehaviour
 
     virtual public void Shoot()
     {
+        AudioClip clipToPlay = shootClip;
         RaycastHit hit;
         Vector3 origin = cameraPos.transform.position;
         Vector3 direction = cameraPos.transform.forward;
         Material impactMaterial = materialGenerico;
         shootSfx.pitch = Random.Range(minPitchShift, maxPitchShift);
-        shootSfx.PlayOneShot(shootClip);
+        
         FireAmmo();
         if (Physics.Raycast(origin, direction, out hit, raycastDistance, coll))
         {
@@ -162,6 +165,7 @@ public class GunBehaviour : MonoBehaviour
 
             if (player.activePerks[7])
             {
+                clipToPlay = shooteExplosiveClip;
                 float explosiveDamage = gunDamage * 2;
                 Collider[] colliders = Physics.OverlapSphere(hit.point, boomRadius);
                 List<ZombieBase> currentZombie = new List<ZombieBase>();
@@ -210,6 +214,7 @@ public class GunBehaviour : MonoBehaviour
             }
             
         }
+        shootSfx.PlayOneShot(clipToPlay);
     }
 
 
@@ -232,6 +237,13 @@ public class GunBehaviour : MonoBehaviour
         }
         rechargeCoroutine = StartCoroutine(Recharge());
         
+    }
+
+    public void FillMagazine()
+    {
+        CancelReload();
+        ammoCurrent = ammoMax;
+        RefreshAmmoText();
     }
 
     public void GainAmmo(int gainedAmmo)

@@ -1,49 +1,64 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 using TMPro;
 
 public class OptionsMenu : MonoBehaviour
 {
-    // Escena a la que se vuelve al tocar "Volver"
-    public static string ReturnScene = "MainMenuScene"; // poné el nombre real de tu escena
-
     [Header("Mouse")]
-    [SerializeField] Slider mouseSlider;
-    [SerializeField] TMP_Text mouseLabel;
+    [SerializeField] private Slider mouseSlider;
+    [SerializeField] private TMP_Text mouseLabel;
 
     [Header("Joystick")]
-    [SerializeField] Slider stickSlider;
-    [SerializeField] TMP_Text stickLabel;
+    [SerializeField] private Slider stickSlider;
+    [SerializeField] private TMP_Text stickLabel;
 
-    void Start()
+    [Header("Audio Mixer")]
+    [SerializeField] private AudioMixer audioMixer;
+
+    [Header("Audio")]
+    [SerializeField] private Slider masterSlider;
+    [SerializeField] private Slider ambientSlider;
+    [SerializeField] private Slider musicSlider;
+    [SerializeField] private Slider sfxSlider;
+
+    [SerializeField] private TMP_Text masterPercent;
+    [SerializeField] private TMP_Text ambientPercent;
+    [SerializeField] private TMP_Text musicPercent;
+    [SerializeField] private TMP_Text sfxPercent;
+
+    private void Start()
     {
-        Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-
-        SetupSlider(mouseSlider, mouseLabel, GameSettings.MouseSensitivity,
-            v => GameSettings.MouseSensitivity = v);
-        SetupSlider(stickSlider, stickLabel, GameSettings.StickSensitivity,
-            v => GameSettings.StickSensitivity = v);
+        SetupSlider(mouseSlider, mouseLabel, GameSettings.MouseSensitivity, v => GameSettings.MouseSensitivity = v);
+        SetupSlider(stickSlider, stickLabel, GameSettings.StickSensitivity, v => GameSettings.StickSensitivity = v);
+        SetupVolumeSlider(masterSlider, masterPercent, GameSettings.MasterVolume, v => GameSettings.MasterVolume = v, "MasterVolume");
+        SetupVolumeSlider(ambientSlider, ambientPercent, GameSettings.AmbientVolume, v => GameSettings.AmbientVolume = v, "AmbientVolume");
+        SetupVolumeSlider(musicSlider, musicPercent, GameSettings.MusicVolume, v => GameSettings.MusicVolume = v, "MusicVolume");
+        SetupVolumeSlider(sfxSlider, sfxPercent, GameSettings.SFXVolume, v => GameSettings.SFXVolume = v, "SFXVolume");
     }
 
-    void SetupSlider(Slider slider, TMP_Text label, float current, System.Action<float> onChange)
+    private void SetupSlider(Slider slider, TMP_Text label, float current, System.Action<float> onChange)
     {
         slider.minValue = 0.1f;
         slider.maxValue = 3f;
         slider.SetValueWithoutNotify(current);
         label.text = current.ToString("0.0") + "x";
-
-        slider.onValueChanged.AddListener(v =>
-        {
-            onChange(v);
-            label.text = v.ToString("0.0") + "x";
-        });
+        slider.onValueChanged.AddListener(v => {onChange(v); label.text = v.ToString("0.0") + "x";});
     }
 
-    public void Back()
+    private void SetupVolumeSlider(Slider slider, TMP_Text label, float current, System.Action<float> onChange, string mixerParameter)
     {
-        SceneManager.LoadScene(ReturnScene);
+        slider.minValue = 0f;
+        slider.maxValue = 1f;
+        slider.SetValueWithoutNotify(current);
+        label.text = Mathf.RoundToInt(current * 100f) + "%";
+        SetVolume(mixerParameter, current);
+        slider.onValueChanged.AddListener(v => {onChange(v); SetVolume(mixerParameter, v); label.text = Mathf.RoundToInt(v * 100f) + "%";});
+    }
+
+    private void SetVolume(string parameterName, float volume)
+    {
+        float dB = Mathf.Log10(Mathf.Max(volume, 0.0001f)) * 20f;
+        audioMixer.SetFloat(parameterName, dB);
     }
 }

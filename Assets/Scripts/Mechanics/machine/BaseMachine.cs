@@ -1,10 +1,13 @@
-using UnityEngine;
 public abstract class BaseMachine : Interaction
 {
     protected Inventory inventory;
     protected override int PuntosRequeridos { get => base.PuntosRequeridos; set => base.PuntosRequeridos = value; }
 
     protected abstract void Buy();
+
+    protected virtual int CostoActual => PuntosRequeridos;
+    protected bool compraFallida = false;
+
     protected override void Start()
     {
         base.Start();
@@ -12,7 +15,7 @@ public abstract class BaseMachine : Interaction
         {
             inventory = player.GetComponent<Inventory>();
         }
-       
+
     }
 
     protected override void Update()
@@ -22,10 +25,12 @@ public abstract class BaseMachine : Interaction
 
     protected override void Interactuar()
     {
-        if (player.points >= PuntosRequeridos)
+        int costo = CostoActual;
+        if (player.points >= costo)
         {
+            compraFallida = false;
             Buy();
-            player.RemovePoints(PuntosRequeridos);
+            if (!compraFallida) player.RemovePoints(costo);
         }
         else
         {

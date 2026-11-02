@@ -1,21 +1,31 @@
+
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class RoundManager : MonoBehaviour
 {
     [SerializeField] AudioSource RoundPassSFX;
     [SerializeField] GameObject ZombieSpawnerMain;
     [SerializeField] private TextMeshProUGUI roundText;
+    [SerializeField] GameObject zombieObj;
 
+    [SerializeField] GameObject gonzaPrefab;
+
+    [SerializeField] AudioSource musicSource;
+
+    [SerializeField] int gonzaBaseHealth = 100;
+
+    private bool gonzaSpawned = false;
     private bool restartingRound = false;
     private List<SpawnerZombie> SZSpawners = new List<SpawnerZombie>();
     private List<ZombieBase> zombieList = new List<ZombieBase>();
     private int zombiesForCurrentRound = 4;
-    private int currentRound = 1;
+    [SerializeField] private int currentRound = 1;
+
+    public int mapActivity = 0;
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         foreach (Transform child in ZombieSpawnerMain.transform)
@@ -23,17 +33,49 @@ public class RoundManager : MonoBehaviour
             SZSpawners.Add(child.GetComponent<SpawnerZombie>());
         }
     }
-    public void AddZombie(SpawnerZombie sz, Transform spawnTransform, Vector3 nearestBarricadePos, GameObject zombieObj)
+    public void AddZombie(Transform spawnTransform, Vector3 nearestBarricadePos)
     {
+        if (currentRound % 10 == 0)
+        {
+            if (!gonzaSpawned && zombieList.Count < 24)
+            {
+                SpawnGonza(nearestBarricadePos);
+            }
+
+            return;
+        }
         if (zombieList.Count < 24 && zombiesForCurrentRound > 0)
         {
             GameObject newZombie = Instantiate(zombieObj, spawnTransform.position, spawnTransform.rotation);
+
             ZombieBase newZombieScript = newZombie.GetComponent<ZombieBase>();
+
+            bool shouldntRandom = currentRound < 3 || currentRound > 5;
+            int roundRange = currentRound < 6 ? 0 : 1;
+            int indexRandom = shouldntRandom ? roundRange * 2 : Random.Range(0,2) + roundRange;
+
+            newZombieScript.ChangeSpeed(indexRandom);
             newZombieScript.goTo(nearestBarricadePos);
             zombieList.Add(newZombieScript);
-            zombiesForCurrentRound--;
-            sz.zombieSpawnTimer = 0;   
+            zombiesForCurrentRound--;   
         }
+    }
+
+    private void SpawnGonza(Vector3 nearestBarricadePos)
+    {
+        if (gonzaSpawned) return;
+        int randomIndex = Random.Range(0, SZSpawners.Count);
+        SpawnerZombie selectedSpawner = SZSpawners[randomIndex];
+
+        GameObject newGonza = Instantiate(gonzaPrefab,selectedSpawner.transform.position,selectedSpawner.transform.rotation);
+
+        ZombieBase gonzaScript = newGonza.GetComponent<ZombieBase>();
+
+        gonzaScript.AsignMusic(musicSource);
+        gonzaScript.goTo(nearestBarricadePos);
+        zombieList.Add(gonzaScript);
+
+        gonzaSpawned = true;
     }
 
     public async void RestartRound()
@@ -52,18 +94,38 @@ public class RoundManager : MonoBehaviour
             sz.SetSpawnTimer();
         }
         restartingRound = false;
+        gonzaSpawned = false;
     }
     public int SetHealthBasedOnRound()
     {
         return 8 + 2 * currentRound + currentRound - 1;
     }
+
+    public int SetGonzaHealthBasedOnRound()
+    {
+        return currentRound * gonzaBaseHealth;
+    }
     public void RemoveZombie(ZombieBase zombie)
     {
         zombieList.Remove(zombie);
+
+
+        if (currentRound % 10 == 0 && gonzaSpawned && zombieList.Count == 0)
+        {
+            RestartRound();
+            return;
+        }
+
+
         if (zombieList.Count == 0 && zombiesForCurrentRound == 0)
         {
             RestartRound();
         }
+    }
+
+    public void IncreaseMapIndex()
+    {
+        mapActivity++;
     }
     
 }

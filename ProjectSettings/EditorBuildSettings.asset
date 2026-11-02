@@ -6,17 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Main Scenes/MainMenuScene.unity
-    guid: 4720d9385197d93448d03783cadb5b7a
+    path: Assets/Scenes/Main Scenes/menudebenja.unity
+    guid: 92907ff9e4158314ca10cb5c79170438
   - enabled: 1
     path: Assets/Scenes/Main Scenes/mainGameLoop.unity
     guid: 190054a827beb404198a40688de0f63b
-  - enabled: 1
-    path: Assets/Scenes/Main Scenes/InformationScene.unity
-    guid: 92bcd56bf3a48c5438f17a07043e7e8b
-  - enabled: 1
-    path: Assets/Scenes/Main Scenes/OptionsScene.unity
-    guid: 1502d08fc29065b4fbd3870d49a5b7dd
   - enabled: 1
     path: Assets/Scenes/Main Scenes/GameOverScene.unity
     guid: caeacc2da4bc06c4fac7dedb10b4b147

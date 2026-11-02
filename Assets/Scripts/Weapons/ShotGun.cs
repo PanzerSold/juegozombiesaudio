@@ -15,8 +15,9 @@ public class ShotGun : GunBehaviour
 
     public override void Shoot()
     {
+        AudioClip clipToPlay = player.activePerks[7] ? shooteExplosiveClip : shootClip;
         shootSfx.pitch = Random.Range(minPitchShift, maxPitchShift);
-        shootSfx.PlayOneShot(shootClip);
+        
         FireAmmo();
 
         for (int i = 0; i < raycastCount; i++)
@@ -37,7 +38,7 @@ public class ShotGun : GunBehaviour
         }
 
         currentRotation = Mathf.Repeat(currentRotation + rotationPerShot, 360f);
-
+        shootSfx.PlayOneShot(clipToPlay);
     }
 
 
@@ -59,6 +60,11 @@ public class ShotGun : GunBehaviour
                 float explosiveDamage = gunDamage * 2;
                 Collider[] colliders = Physics.OverlapSphere(hit.point, boomRadius);
                 List<ZombieBase> currentZombie = new List<ZombieBase>();
+                foreach (ParticleSystem pse in psExplosiveAmmo)
+                {
+                    pse.transform.position = hit.point;
+                    pse.Play();
+                }
 
                 foreach (Collider hitCollider in colliders)
                 {

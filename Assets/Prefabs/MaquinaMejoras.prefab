@@ -110,9 +110,9 @@ MonoBehaviour:
   puntosRequeridos: 2500
   usoUnico: 0
   textoInteraccion: {fileID: 0}
+  textPurchase: {fileID: 0}
   SFX_FaltaPlata: {fileID: 1914454330311015955}
   SFX_Comprar: {fileID: 3343953363472528465}
-  perkText: {fileID: 0}
 --- !u!65 &3695100143912967084
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -164,7 +164,7 @@ AudioSource:
   m_GameObject: {fileID: 1516614588075952682}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -1949492420168737780, guid: 1b715518eb107f44db88271539db3efc, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 73a6d2f6c8c20044489e52660221040e, type: 3}
   m_PlayOnAwake: 0

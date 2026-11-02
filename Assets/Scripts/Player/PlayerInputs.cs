@@ -17,6 +17,7 @@ public class PlayerInputs : MonoBehaviour
     public InputAction skillAction;
     public InputAction inventoryAction;
     public InputAction lastWeaponAction;
+    public InputAction pauseMenu;
     private void Start()
     {
 
@@ -34,9 +35,10 @@ public class PlayerInputs : MonoBehaviour
         skillAction = playerMap.FindAction("Skill");
         inventoryAction = playerMap.FindAction("Inventory");
         lastWeaponAction = playerMap.FindAction("LastWeapon");
+        pauseMenu = playerMap.FindAction("PauseMenu");
 
         playerMap.Enable();
-
+        
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

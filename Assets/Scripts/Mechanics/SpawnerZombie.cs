@@ -2,35 +2,45 @@ using UnityEngine;
 
 public class SpawnerZombie : MonoBehaviour
 {
+    [SerializeField] private float zombieSpawnCooldown = 5f;
+    [SerializeField] private Transform nearestBarricadePos;
+    [SerializeField] public int mapIndex = 0;
 
-    [SerializeField] GameObject zombie;
-    [SerializeField] float zombieSpawnCooldown = 5f;
-    [SerializeField] Transform nearestBarricadePos;
+    [SerializeField] private bool disabled = true;
     private RoundManager rm;
 
-    public float zombieSpawnTimer;
+    private float zombieSpawnTimer;
 
     void Start()
     {
-        SetSpawnTimer();
+        zombieSpawnTimer = Random.Range(0f,3f);
         rm = GameObject.FindWithTag("RoundManager").GetComponent<RoundManager>();
     }
 
     void Update()
     {
-        zombieSpawnTimer += Time.deltaTime;
-        if (zombieSpawnTimer > zombieSpawnCooldown)
+        if (!disabled)
         {
-            SpawnZombie();
+            zombieSpawnTimer += Time.deltaTime;
+            if (zombieSpawnTimer > zombieSpawnCooldown)
+            {
+                SpawnZombie();
+            }
         }
+        else
+        {
+            if (mapIndex <= rm.mapActivity) disabled = false;
+        }
+        
     }
 
     void SpawnZombie()
     {
-        rm.AddZombie(this,transform,nearestBarricadePos.position,zombie);
+        zombieSpawnTimer = 0;
+        rm.AddZombie(transform,nearestBarricadePos.position);
     }
     public void SetSpawnTimer()
     {
-        zombieSpawnTimer = zombieSpawnTimer-(Random.Range(0f,0.2f)*16);
+        zombieSpawnTimer = zombieSpawnTimer-Random.Range(0f,3.2f);
     }
 }

@@ -18,6 +18,8 @@ public class PlayerViewInput : MonoBehaviour
     // Almacenamiento interno para el ángulo vertical actual del pivote
     private float currentAngleY = 0f;
 
+    private PlayerShoot playerAmmo;
+
     void Start()
     {
         if (player == null)
@@ -27,6 +29,7 @@ public class PlayerViewInput : MonoBehaviour
 
         if (player != null)
         {
+            playerAmmo = player.GetComponent<PlayerShoot>();
             pi = player.GetComponent<PlayerInputs>();
         }
 
@@ -39,7 +42,7 @@ public class PlayerViewInput : MonoBehaviour
 
     void Update()
     {
-        if (!disabled && pi != null && pi.lookAction != null)
+        if (!disabled && pi != null && pi.lookAction != null && !playerAmmo.InventoryOpen)
         {
             Vector2 lookAround = pi.lookAction.ReadValue<Vector2>();
 

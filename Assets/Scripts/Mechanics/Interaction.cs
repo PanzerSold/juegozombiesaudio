@@ -17,11 +17,17 @@ public abstract class Interaction : MonoBehaviour
     [SerializeField] protected AudioSource SFX_Comprar;
 
     protected String fullString = "";
+    protected bool alreadyActive = false;
+
+    protected PlayerHealth ph;
+    protected PlayerShoot playerAmmo;
 
 
     protected virtual void Start()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        ph = GameObject.FindWithTag("Player").GetComponent<PlayerHealth>();
+        playerAmmo = GameObject.FindWithTag("Player").GetComponent<PlayerShoot>();
         pi = player.gameObject.GetComponent<PlayerInputs>();
     }
 
@@ -29,7 +35,7 @@ public abstract class Interaction : MonoBehaviour
     {
         if (jugadorDentro)
         {
-            if (pi.interactAction.WasPressedThisFrame()) Interactuar();
+            if (pi.interactAction.WasPressedThisFrame() && !ph.IsDying && !playerAmmo.InventoryOpen && !player.IsVaulting) Interactuar();
         }
     }
 
@@ -59,6 +65,11 @@ public abstract class Interaction : MonoBehaviour
         UpdatePriceText();
         textoInteraccion.gameObject.SetActive(true);
     }
+
+    public virtual void PlayerStay()
+    {
+
+    }
     public virtual void PlayerExit()
     {
         jugadorDentro = false;
@@ -67,9 +78,11 @@ public abstract class Interaction : MonoBehaviour
 
     protected IEnumerator VisualPurchase(string purchase)
     {
+        alreadyActive = true;
         textPurchase.text = "" + purchase;
         textPurchase.gameObject.SetActive(true);
         yield return new WaitForSeconds(2f);
+        alreadyActive = false;
         textPurchase.gameObject.SetActive(false);
     }
 }

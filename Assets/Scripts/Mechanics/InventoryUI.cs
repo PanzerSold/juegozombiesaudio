@@ -13,6 +13,18 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private GameObject contextMenu;
     [SerializeField] private Button equipButton;
     [SerializeField] private Button discardButton;
+
+
+    private string[] bulletNames = new string[]
+    {
+        "9mm Rounds",
+        "5.6x45mm Rounds",
+        "50mm Rounds",
+        "5.7mm Rounds",
+        "BuckShot Rounds",
+        "Rockets",
+    };
+
     //----- NUEVO CODIGO -----
 
     private TextMeshProUGUI[] slotLabels;

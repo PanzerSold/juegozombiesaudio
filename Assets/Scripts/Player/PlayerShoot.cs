@@ -30,11 +30,17 @@ public class PlayerShoot : MonoBehaviour
     private float shootTimer = 0;
 
     private bool inventoryOpen = false;
+
+    public bool InventoryOpen => inventoryOpen;
     
     //----- NUEVO CODIGO ----- Índice del arma que sostenías antes de la actual
     private Inventory.itemIndex lastWeapon = Inventory.itemIndex.None;
 
+    private PlayerHealth ph;
     private Animator anim;
+
+    private Player player;
+    [SerializeField] private PauseMenu pauseMenu;
 
     //----- NUEVO CODIGO -----
     private void Awake()
@@ -57,8 +63,10 @@ public class PlayerShoot : MonoBehaviour
 
     private void Start()
     {
+        ph = GetComponent<PlayerHealth>();
         anim = GetComponentInChildren<Animator>();
         pi = gameObject.GetComponent<PlayerInputs>();
+        player = GetComponent<Player>();
         EquipWeapon(inventory.EquippedWeapon);
     }
 
@@ -106,12 +114,11 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
-    private void ToggleInventory()
+    public void ToggleInventory()
     {
         inventoryOpen = !inventoryOpen;
         if (inventoryPanel != null) inventoryPanel.SetActive(inventoryOpen);
 
-        Time.timeScale = inventoryOpen ? 0f : 1f;
         Cursor.lockState = inventoryOpen ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = inventoryOpen;
 
@@ -126,19 +133,20 @@ public class PlayerShoot : MonoBehaviour
 
     private void Update()
     {
-        if (pi.inventoryAction.WasPressedThisFrame())
+        if (pauseMenu.isPaused) return;
+        if (pi.inventoryAction.WasPressedThisFrame() && !ph.IsDying && !player.IsVaulting)
         {
             ToggleInventory();
         }
 
         if (inventoryOpen) return;
         //----- NUEVO CODIGO ----- Al apretar Q (LastWeapon) vuelve al arma anterior
-        if (pi.lastWeaponAction.WasPressedThisFrame())
+        if (pi.lastWeaponAction.WasPressedThisFrame() && !ph.IsDying)
         {
             EquipLastWeapon();
         }
         //----- NUEVO CODIGO -----
-        if (gun != null)
+        if (gun != null && !ph.IsDying)
          {
             bool inputShoot;
             shootTimer += Time.deltaTime;

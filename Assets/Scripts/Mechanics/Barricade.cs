@@ -8,17 +8,16 @@ public class Barricade : Interaction
     [SerializeField] private Collider ColliderPrincipal;
     [SerializeField] private float delayBarricada = 3f;
 
+    [SerializeField] private ParticleSystem woodParticle;
     public bool isOpen { get; private set; } = false;
     private bool cycle = false;
 
-    //----- Codigo borrado ----- Estaba fijo en 5 aunque la barricada tenga otra cantidad de tablas
-    // private int barricadasRestantes = 5;
-    //----- Codigo borrado -----
+    [SerializeField] private AudioSource SFX_GettingHit;
+    [SerializeField] private AudioSource SFX_GettingDestroyed;
 
-    //----- NUEVO CODIGO ----- Se calcula en Start según las tablas activas
+
     private int barricadasRestantes;
-    //----- NUEVO CODIGO -----
-
+    
     public int zombiesClose = 0;
 
     private Animator animZombie;
@@ -27,23 +26,21 @@ public class Barricade : Interaction
         base.Start();
         fullString = "Repair barricade (E)";
 
-        //----- NUEVO CODIGO ----- Cuenta las tablas que arrancan activas
         barricadasRestantes = 0;
         for (int i = 0; i < barricades.Length; i++)
         {
             if (barricades[i] != null && barricades[i].activeSelf) barricadasRestantes++;
         }
-        //----- NUEVO CODIGO -----
     }
     protected override void Update()
     {
-        if(jugadorDentro)
+        if (jugadorDentro)
         {
             if (barricadasRestantes < barricades.Length)
             {
                 textoInteraccion.gameObject.SetActive(true);
 
-                if (pi.interactAction.IsPressed())
+                if (pi.interactAction.IsPressed() && !ph.IsDying && !playerAmmo.InventoryOpen)
                 {
                     Interactuar();
                 }
@@ -73,7 +70,7 @@ public class Barricade : Interaction
     {
         if (!cycle && barricadasRestantes > 0)
         {
-            
+
             StartCoroutine(ZombieCorrutine());
         }
     }
@@ -88,7 +85,7 @@ public class Barricade : Interaction
             {
                 barricades[i].SetActive(true);
                 barricadasRestantes++;
-                break; 
+                break;
             }
         }
 
@@ -106,21 +103,24 @@ public class Barricade : Interaction
         {
             if (barricades[i] != null && barricades[i].activeSelf)
             {
+                if(woodParticle != null) woodParticle.Play();
                 barricades[i].SetActive(false);
+                SFX_GettingHit.Play();
                 barricadasRestantes--;
-                break; 
+                break;
             }
         }
         if (barricadasRestantes <= 0 && ColliderPrincipal != null)
         {
             ColliderPrincipal.enabled = false;
+            SFX_GettingDestroyed.Play();
             isOpen = true;
         }
         if (animZombie != null)
         {
             animZombie.Play("attack");
         }
-        yield return new WaitForSeconds(delayBarricada/2f);
+        yield return new WaitForSeconds(delayBarricada / 2f);
 
 
         cycle = false;
@@ -140,6 +140,18 @@ public class Barricade : Interaction
         {
             textoInteraccion.text = fullString;
             textoInteraccion.gameObject.SetActive(true);
+        }
+    }
+
+    override public void PlayerStay()
+    {
+        if (barricadasRestantes < barricades.Length)
+        {
+            textoInteraccion.text = fullString;
+            textoInteraccion.gameObject.SetActive(true);
+        } else
+        {
+            textoInteraccion.gameObject.SetActive(false);
         }
     }
 }

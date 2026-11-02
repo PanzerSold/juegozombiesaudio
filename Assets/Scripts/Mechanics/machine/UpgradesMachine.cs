@@ -6,7 +6,7 @@ public class UpgradesMachine : BaseMachine
     protected override void Start()
     {
         base.Start();
-        fullString = "Buy Upgrade (" + PuntosRequeridos + ") (E)";
+        fullString = "Buy perk (" + PuntosRequeridos + ") (E)";
     }
 
     protected override void Buy()
@@ -34,9 +34,34 @@ public class UpgradesMachine : BaseMachine
         SFX_Comprar.Play();
     }
 
+    public override void PlayerStay()
+    {
+        List<int> missingPerks = new List<int>();
+
+        for (int i = 0; i < player.activePerks.Length; i++)
+        {
+            if (!player.activePerks[i])
+            {
+                missingPerks.Add(i);
+            }
+        }
+
+        if (missingPerks.Count > 0)
+        {
+            fullString = "Buy perk (" + PuntosRequeridos + ") (E)";
+            textoInteraccion.text = fullString;
+        }
+        else
+        {
+            fullString = "You bought every perk";
+            textoInteraccion.text = fullString;
+        }
+    }
+
+
     private void GivePerk(List<int> missingPerks)
     {
-        int randomIndex = Random.Range(0, missingPerks.Count - 1);
+        int randomIndex = Random.Range(0, missingPerks.Count);
         int perkIndex = missingPerks[randomIndex];
 
         player.activePerks[perkIndex] = true;

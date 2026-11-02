@@ -7,9 +7,8 @@ public class ZombieNavmesh : MonoBehaviour
     [Header("Navegación")]
     [SerializeField] private float repathInterval = 0.2f;
     [SerializeField] private float waypointReachDistance = 1f;
-    //----- NUEVO CODIGO ----- Velocidad de giro hacia el jugador cuando está frenado en una barricada
     [SerializeField] private float rotationSpeed = 10f;
-    //----- NUEVO CODIGO -----
+    
 
     private NavMeshAgent agent;
     private Transform playerTransform;
@@ -17,16 +16,13 @@ public class ZombieNavmesh : MonoBehaviour
     private Vector3 waypoint;
     private bool followingWaypoint = false;
     private bool isStunned = false;
-    //----- NUEVO CODIGO ----- Frenado porque está rompiendo una barricada
     private bool isHolding = false;
-    //----- NUEVO CODIGO -----
     private float repathTimer = 0f;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
 
-        // El Rigidbody ya no mueve al zombie: lo mueve el agente
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null) rb.isKinematic = true;
     }
@@ -40,21 +36,22 @@ public class ZombieNavmesh : MonoBehaviour
     {
         if (!agent.isOnNavMesh) return;
 
-        //----- NUEVO CODIGO ----- Si está frenado en la barricada, solo mira al jugador
         if (isHolding)
         {
             LookAtPlayer();
             return;
         }
-        //----- NUEVO CODIGO -----
 
-        if (isStunned) return;
+        if (isStunned)
+        { 
+            return;
+        }
 
         repathTimer -= Time.deltaTime;
         if (repathTimer > 0f) return;
         repathTimer = repathInterval;
 
-        agent.SetDestination(GetTarget());
+        agent.SetDestination(GetTarget());;
     }
 
     private Vector3 GetTarget()
@@ -71,7 +68,6 @@ public class ZombieNavmesh : MonoBehaviour
         return playerTransform.position;
     }
 
-    //----- NUEVO CODIGO ----- Giro manual, porque con el agente frenado no rota solo
     private void LookAtPlayer()
     {
         Vector3 direction = playerTransform.position - transform.position;
@@ -82,7 +78,6 @@ public class ZombieNavmesh : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
     }
 
-    // Frena o libera al agente según esté aturdido o frenado en una barricada
     private void ApplyStop()
     {
         if (!agent.isOnNavMesh) return;
@@ -93,13 +88,12 @@ public class ZombieNavmesh : MonoBehaviour
         if (stop) agent.velocity = Vector3.zero;
         else repathTimer = 0f;
     }
-    //----- NUEVO CODIGO -----
 
-    // Reemplaza al scriptedMovement: primero va a este punto (la barricada) y después persigue al jugador
     public void SetWaypoint(Vector3 position)
     {
         waypoint = position;
         followingWaypoint = true;
+
     }
 
     public void SetSpeed(float speed)
@@ -110,17 +104,12 @@ public class ZombieNavmesh : MonoBehaviour
     public void SetStunned(bool stunned)
     {
         isStunned = stunned;
-        //----- NUEVO CODIGO -----
         ApplyStop();
-        //----- NUEVO CODIGO -----
     }
-
-    //----- NUEVO CODIGO ----- ZombieBase lo llama cada frame; solo hace algo cuando el valor cambia
     public void SetHolding(bool holding)
     {
         if (isHolding == holding) return;
         isHolding = holding;
         ApplyStop();
     }
-    //----- NUEVO CODIGO -----
 }

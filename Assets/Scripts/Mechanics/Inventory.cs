@@ -20,7 +20,7 @@ public class Inventory : MonoBehaviour
         UZI,
         MP5,
         RPG,
-        Remington,
+        M800,
         Balas_Pistola,
         Balas_Rifle,
         Balas_Sniper,
@@ -108,6 +108,7 @@ public class Inventory : MonoBehaviour
         {
             case itemIndex.Balas_Pistola: return limites.Balas_Pistola;
             case itemIndex.Balas_Rifle: return limites.Balas_Rifle;
+            case itemIndex.Balas_Sniper: return limites.Balas_Sniper;
             case itemIndex.Balas_Subfusil: return limites.Balas_Subfusil;
             case itemIndex.Balas_Escopeta: return limites.Balas_Escopeta;
             case itemIndex.Balas_Lanzacohete: return limites.Balas_Lanzacohete;
@@ -132,7 +133,7 @@ public class Inventory : MonoBehaviour
             case itemIndex.UZI:
             case itemIndex.MP5:
                 return itemIndex.Balas_Subfusil;
-            case itemIndex.Remington:
+            case itemIndex.M800:
                 return itemIndex.Balas_Escopeta;
             case itemIndex.RPG:
                 return itemIndex.Balas_Lanzacohete;
@@ -149,6 +150,7 @@ public class Inventory : MonoBehaviour
                 return Item.empty;
             case itemIndex.Balas_Pistola:
             case itemIndex.Balas_Rifle:
+            case itemIndex.Balas_Sniper:
             case itemIndex.Balas_Subfusil:
             case itemIndex.Balas_Escopeta:
             case itemIndex.Balas_Lanzacohete:
@@ -321,5 +323,29 @@ public class Inventory : MonoBehaviour
 
         OnInventoryChanged?.Invoke();
     }
-    //----- Codigo Borrado----- Todo lo relacionado a "DebugStartItem"
+
+
+    public bool FindAndFillFirst(itemIndex ammo)
+    {
+        int limit = GetLimit(ammo);
+        if (limit <= 0) return false;
+
+        for (int i = 0; i < SlotCount; i++)
+        {
+            if (actualInventory[i].item == itemType.Ammo &&
+                actualInventory[i].index == ammo)
+            {
+                actualInventory[i].amount = limit;
+                OnInventoryChanged?.Invoke();
+                return true;
+            }
+        }
+
+        if (PlaceInEmptySlot(CreateItem(ammo, limit)))
+        {
+            OnInventoryChanged?.Invoke();
+            return true;
+        }
+        return false;
+    }
 }

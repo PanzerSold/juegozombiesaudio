@@ -14,6 +14,7 @@ public class Door : Interaction
             SFX_Comprar.Play();
             player.RemovePoints(PuntosRequeridos);
             textoInteraccion.gameObject.SetActive(false);
+            FindAnyObjectByType<RoundManager>().IncreaseMapIndex();
             Destroy(gameObject);
         }
         else

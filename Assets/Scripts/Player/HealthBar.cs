@@ -11,14 +11,17 @@ public class HealthBar : MonoBehaviour
 
     
     [Header("Barra de vida")]
-    private RawImage[] images;
-    [SerializeField] private RawImage image1;
-    [SerializeField] private RawImage image2;
-    [SerializeField] private RawImage image3;
-    [SerializeField] private RawImage image4;
-    [SerializeField] private RawImage image5;
-    [SerializeField] private RawImage image6;
+    private RawImage[] hearts;
+    [SerializeField] private RawImage heart1;
+    [SerializeField] private RawImage heart2;
+    [SerializeField] private RawImage heart3;
+    [SerializeField] private RawImage heart4;
+    [SerializeField] private RawImage heart5;
+    [SerializeField] private RawImage heart6;
     [SerializeField] private Gradient colorByHealth;
+    private Coroutine rebirthCoroutine;
+    [SerializeField] private float rebirthDuration = 3f;
+    [SerializeField] private Color rebirthStartColor = new Color(0.5f, 0.9f, 1f, 1f);
 
     [Header("Power Ups")]
     private RawImage[] powerUps;
@@ -43,17 +46,28 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private RawImage shield;
     public RawImage shieldTime;
     public TextMeshProUGUI shieldTimeText;
+
+    [Header("Particulas")]
+
+    [SerializeField] private ParticleSystem rebirthParticle;
+
+    [Header("Sonidos")]
+    [SerializeField] private AudioSource SFX_RebirthSound; 
+    [SerializeField] private AudioSource SFX_Newshield; 
+
+  
     private void Start()
     {
         perks = new RawImage[] { shielded, speed, haste, rebirth, scavenger, vampirism, criticalShots, explosiveBullets };
         powerUps = new RawImage[] { doublePoints, headShots, discount, wings };
-        images = new RawImage[] { image1, image2, image3, image4, image5, image6 };
+        hearts = new RawImage[] { heart1, heart2, heart3, heart4, heart5, heart6 };
         playerHealth = GetComponent<PlayerHealth>();
         player = GetComponent<Player>();
         UnityEvents.onHealthChanged.AddListener(OnHealthChange);
         UnityEvents.shielded.AddListener(Shielded);
         UnityEvents.onPowerUpTriggered.AddListener(VisualPowerUps);
         UnityEvents.onPerkActive.AddListener(VisualPerks);
+        OnHealthChange(playerHealth.health);
     }
 
     private void OnDeath()
@@ -62,37 +76,49 @@ public class HealthBar : MonoBehaviour
         {
             playerHealth.GainHealth(6);
             player.activePerks[3] = false;
-            for (int i = 0; i < images.Length; i++)
+
+            foreach (RawImage heart in hearts)
             {
-                images[i].gameObject.SetActive(true);
+                if (heart != null) heart.gameObject.SetActive(true);
             }
+
+            if (rebirthCoroutine != null) StopCoroutine(rebirthCoroutine);
+            if (rebirthParticle != null) rebirthParticle.Play();
+            SFX_RebirthSound.Play();
+            rebirthCoroutine = StartCoroutine(VisualRebirth());
+            StartCoroutine(VisualPowerUpText("Rebirth!"));
         }
+
         UnityEvents.onPerkActive.Invoke();
     }
     public void OnHealthChange(int health)
     {
         playerHealth.health = health;
-        float healthPercent = health / 6f;
-        if (health <= 0)
+
+        if (health <= 0 && player.activePerks[3])
         {
             OnDeath();
             return;
         }
 
-        for (int i = 0; i < images.Length; i++)
+        Color healthColor = GetHealthColor(health);
+
+        for (int i = 0; i < hearts.Length; i++)
         {
             bool check = health > i;
-            if (images[i] != null)
-            {
-                images[i].gameObject.SetActive(check);
-                images[i].color = colorByHealth.Evaluate(healthPercent);
-            }
-        }    
-    }
 
+            if (hearts[i] != null)
+            {
+                hearts[i].gameObject.SetActive(check);
+                if (rebirthCoroutine == null) hearts[i].color = healthColor;
+            }
+        }
+    }
     public void Shielded(bool isShielded)
     {
         if (shield != null) shield.gameObject.SetActive(isShielded);
+        SFX_Newshield.Play();
+
     }
 
     public void VisualPowerUps()
@@ -115,16 +141,47 @@ public class HealthBar : MonoBehaviour
         }
     }
 
-    public void VisualMaxAmmoText()
+    public IEnumerator VisualPowerUpText(string text)
     {
-        StartCoroutine(VisualMaxAmmo());
-    }
-
-    private IEnumerator VisualMaxAmmo()
-    {
-        textMaxAmmo.text = "+ 50";
+        textMaxAmmo.text = "" + text;
         textMaxAmmo.gameObject.SetActive(true);
         yield return new WaitForSeconds(2f);
         textMaxAmmo.gameObject.SetActive(false);
+    }
+
+    private IEnumerator VisualRebirth()
+    {
+        float elapsed = 0f;
+
+        foreach (RawImage heart in hearts)
+        {
+            if (heart != null) heart.color = rebirthStartColor;
+        }
+
+        while (elapsed < rebirthDuration)
+        {
+            elapsed += Time.deltaTime;
+            float progress = Mathf.Clamp01(elapsed / rebirthDuration);
+            Color healthColor = GetHealthColor(playerHealth.health);
+            Color currentColor = Color.Lerp(rebirthStartColor, healthColor, progress);
+
+            foreach (RawImage heart in hearts)
+            {
+                if (heart != null) heart.color = currentColor;
+            }
+            yield return null;
+        }
+
+        Color finalColor = GetHealthColor(playerHealth.health);
+
+        foreach (RawImage heart in hearts)
+        {
+            if (heart != null) heart.color = finalColor;
+        }
+        rebirthCoroutine = null;
+    }
+    private Color GetHealthColor(int health)
+    {
+        return colorByHealth.Evaluate(health / 6f);
     }
 }
