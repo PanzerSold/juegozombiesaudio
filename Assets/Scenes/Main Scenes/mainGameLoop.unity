@@ -11803,7 +11803,7 @@ MonoBehaviour:
   SFX_PowerUp: {fileID: 1602040730}
   SFX_Steps: {fileID: 962999631}
   stepsClip: {fileID: 8300000, guid: 0312098dfd2d2b442a339013faec08f9, type: 3}
-  points: 20000
+  points: 500
   activePowerUps:
   - 20
   - 20
