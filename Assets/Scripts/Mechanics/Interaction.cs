@@ -17,6 +17,7 @@ public abstract class Interaction : MonoBehaviour
     [SerializeField] protected AudioSource SFX_Comprar;
 
     protected String fullString = "";
+    protected bool alreadyActive = false;
 
     protected PlayerHealth ph;
     protected PlayerShoot playerAmmo;
@@ -77,9 +78,11 @@ public abstract class Interaction : MonoBehaviour
 
     protected IEnumerator VisualPurchase(string purchase)
     {
+        alreadyActive = true;
         textPurchase.text = "" + purchase;
         textPurchase.gameObject.SetActive(true);
         yield return new WaitForSeconds(2f);
+        alreadyActive = false;
         textPurchase.gameObject.SetActive(false);
     }
 }

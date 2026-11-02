@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
@@ -24,9 +23,9 @@ public class Player : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI textPoints;
     [SerializeField] private AudioSource BarrierBuildSfx;
-    [SerializeField] private AudioSource SFX_PowerUp; //Sfx del power up
-    [SerializeField] private AudioSource SFX_Steps; //Sfx de los pasos
-    [SerializeField] private AudioClip stepsClip; //Sfx de los pasos
+    [SerializeField] private AudioSource SFX_PowerUp;
+    [SerializeField] private AudioSource SFX_Steps;
+    [SerializeField] private AudioClip stepsClip;
     private PlayerShoot playerAmmo;
     private string pointsStart;
     public int points = 0;
@@ -217,11 +216,11 @@ public class Player : MonoBehaviour
 
     private void ActivatePowerUp(PlayerBonus bonus)
     {
-        if (bonus == PlayerBonus.DoublePoints) StartCoroutine(healthBar.VisualPowerUpText("Double points"));
+        if (bonus == PlayerBonus.DoublePoints) StartCoroutine(healthBar.VisualPowerUpText("Double points!"));
 
-        if (bonus == PlayerBonus.Discount) StartCoroutine(healthBar.VisualPowerUpText("Everything's on discount"));
+        if (bonus == PlayerBonus.Discount) StartCoroutine(healthBar.VisualPowerUpText("Half the price!"));
 
-        if (bonus == PlayerBonus.HeadShots) StartCoroutine(healthBar.VisualPowerUpText("Headshots are deadly"));
+        if (bonus == PlayerBonus.HeadShots) StartCoroutine(healthBar.VisualPowerUpText("Headshots are deadly!"));
 
         if (bonus == PlayerBonus.MaxAmmo)
         {
@@ -238,13 +237,13 @@ public class Player : MonoBehaviour
 
             if (playerAmmo.Gun != null) playerAmmo.Gun.FillMagazine();
 
-            StartCoroutine(healthBar.VisualPowerUpText("All weapons filled"));
+            StartCoroutine(healthBar.VisualPowerUpText("All weapons filled!"));
             return;
         }
         if (bonus == PlayerBonus.Wings)
         {
             hasWings = true;
-            StartCoroutine(healthBar.VisualPowerUpText("You feel faster"));
+            StartCoroutine(healthBar.VisualPowerUpText("You feel faster!"));
             if (psWings != null)
             {
                 psWings.Play();

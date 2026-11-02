@@ -26,7 +26,6 @@ public class RoundManager : MonoBehaviour
     public int mapActivity = 0;
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         foreach (Transform child in ZombieSpawnerMain.transform)
@@ -64,6 +63,7 @@ public class RoundManager : MonoBehaviour
 
     private void SpawnGonza(Vector3 nearestBarricadePos)
     {
+        if (gonzaSpawned) return;
         int randomIndex = Random.Range(0, SZSpawners.Count);
         SpawnerZombie selectedSpawner = SZSpawners[randomIndex];
 

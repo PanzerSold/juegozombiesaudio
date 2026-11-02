@@ -51,14 +51,11 @@ public class HealthBar : MonoBehaviour
 
     [SerializeField] private ParticleSystem rebirthParticle;
 
-    //Codigo nuevo 
     [Header("Sonidos")]
-    [SerializeField] private AudioSource SFX_RebirthSound; //Sfx del rebirth
-    [SerializeField] private AudioSource SFX_Newshield; //Sfx del escudo nuevo
+    [SerializeField] private AudioSource SFX_RebirthSound; 
+    [SerializeField] private AudioSource SFX_Newshield; 
 
-
-    //tengo sueño y me da flojera escribir el comentario todo largo de "Codigo nuevo" 
-
+  
     private void Start()
     {
         perks = new RawImage[] { shielded, speed, haste, rebirth, scavenger, vampirism, criticalShots, explosiveBullets };
@@ -87,7 +84,7 @@ public class HealthBar : MonoBehaviour
 
             if (rebirthCoroutine != null) StopCoroutine(rebirthCoroutine);
             if (rebirthParticle != null) rebirthParticle.Play();
-            SFX_RebirthSound.Play(); //Al recibir el rebirth, se reproduce el sonido del rebirth
+            SFX_RebirthSound.Play();
             rebirthCoroutine = StartCoroutine(VisualRebirth());
             StartCoroutine(VisualPowerUpText("Rebirth!"));
         }
@@ -120,7 +117,7 @@ public class HealthBar : MonoBehaviour
     public void Shielded(bool isShielded)
     {
         if (shield != null) shield.gameObject.SetActive(isShielded);
-        SFX_Newshield.Play(); //Al recibir el escudo, se reproduce el sonido del escudo
+        SFX_Newshield.Play();
 
     }
 

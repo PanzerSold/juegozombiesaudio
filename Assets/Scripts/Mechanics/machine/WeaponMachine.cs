@@ -4,7 +4,6 @@ public class WeaponMachine : BaseMachine
 {
     [SerializeField] private Inventory.itemIndex givenWeapon;
 
-    //----- NUEVO CODIGO ----- Balas = mitad, arma nueva = precio completo, inventario lleno sin esas balas = 0
     protected override int CostoActual
     {
         get
@@ -18,7 +17,6 @@ public class WeaponMachine : BaseMachine
             return inventory.GetAmount(givenWeapon) > 0 ? PuntosRequeridos / 2 : PuntosRequeridos;
         }
     }
-    //----- NUEVO CODIGO -----
 
     protected override void Buy()
     {

@@ -61,6 +61,7 @@ public class ZombieBase : MonoBehaviour
     [SerializeField] private AudioSource zombieAudio;
 
     [SerializeField] private bool gonza = false;
+    private ZombieBase gonzaInstance;
     private AudioSource bosstheme;
     public void ChangeSpeed(int index)
     {
@@ -82,6 +83,11 @@ public class ZombieBase : MonoBehaviour
 
     void Start()
     {
+        if (gonza)
+        {
+            if (gonzaInstance == null) gonzaInstance = this;
+            else Destroy(gameObject);
+        }
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
         GameObject playerObject = GameObject.Find("Player");
