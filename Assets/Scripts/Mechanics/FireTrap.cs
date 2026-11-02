@@ -31,7 +31,6 @@ public class FireTrap : Interaction
                 {
                     Interactuar();
                 }
-                return;
             }
             else
             {

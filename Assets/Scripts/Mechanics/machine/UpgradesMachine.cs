@@ -61,7 +61,7 @@ public class UpgradesMachine : BaseMachine
 
     private void GivePerk(List<int> missingPerks)
     {
-        int randomIndex = Random.Range(0, missingPerks.Count - 1);
+        int randomIndex = Random.Range(0, missingPerks.Count);
         int perkIndex = missingPerks[randomIndex];
 
         player.activePerks[perkIndex] = true;
