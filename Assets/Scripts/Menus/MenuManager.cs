@@ -7,6 +7,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private RectTransform mainMenu;
     [SerializeField] private RectTransform optionsMenu;
     [SerializeField] private RectTransform informationMenu;
+    [SerializeField] private RectTransform creditsMenu;
     [SerializeField] private float transitionDuration = 0.5f;
     [SerializeField] private float screenWidth = 1920f;
 
@@ -49,6 +50,11 @@ public class MenuManager : MonoBehaviour
     public void BackToOptions()
     {
         TransitionTo(optionsMenu);
+    }
+
+    public void OpenCredits()
+    {
+        TransitionTo(creditsMenu);
     }
 
     private void TransitionTo(RectTransform nextMenu)
