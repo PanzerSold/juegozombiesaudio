@@ -18,6 +18,7 @@ public class PlayerInputs : MonoBehaviour
     public InputAction inventoryAction;
     public InputAction lastWeaponAction;
     public InputAction pauseMenu;
+    public bool blockReload;
     private void Start()
     {
 

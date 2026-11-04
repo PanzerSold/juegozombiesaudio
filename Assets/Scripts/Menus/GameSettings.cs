@@ -9,6 +9,7 @@ public static class GameSettings
     const string AmbientVolumeKey = "ambient_volume";
     const string MusicVolumeKey = "music_volume";
     const string SFXVolumeKey = "sfx_volume";
+    const string VoicesVolumeKey = "voices_volume";
 
     public static event Action OnChanged;
 
@@ -77,4 +78,16 @@ public static class GameSettings
             OnChanged?.Invoke();
         }
     }
+
+    public static float VoicesVolume
+    {
+        get => PlayerPrefs.GetFloat(VoicesVolumeKey, 1f);
+        set
+        {
+            PlayerPrefs.SetFloat(VoicesVolumeKey, value);
+            PlayerPrefs.Save();
+            OnChanged?.Invoke();
+        }
+    }
+
 }

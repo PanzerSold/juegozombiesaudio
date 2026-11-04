@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1849314238215341300}
   - component: {fileID: 7836367065522102119}
   - component: {fileID: 1102489323364049739}
-  - component: {fileID: 5374784875381171455}
   - component: {fileID: 4179009901678358774}
   m_Layer: 0
   m_Name: Radio
@@ -136,23 +135,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.9466232, y: 1.0047916, z: 0.51403636}
   m_Center: {x: -1.5253094, y: 0.0023957093, z: 0.018383343}
---- !u!114 &5374784875381171455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6874061860759887409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f9502249de677e4b97b65eef5d29318, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  puntosRequeridos: 0
-  usoUnico: 0
-  textoInteraccion: {fileID: 0}
-  primerClip: {fileID: 8300000, guid: 3a847e1ef7ab22144a829c5a317aed5a, type: 3}
-  segundoClip: {fileID: 0}
 --- !u!82 &4179009901678358774
 AudioSource:
   m_ObjectHideFlags: 0
@@ -162,9 +144,9 @@ AudioSource:
   m_GameObject: {fileID: 6874061860759887409}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 1b715518eb107f44db88271539db3efc, type: 2}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 5e9385ff626a8694ba22769c92f060d0, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.502
   m_Pitch: 1

@@ -178,7 +178,7 @@ public class PlayerShoot : MonoBehaviour
 
                 if (gun.AmmoCurrent != gun.AmmoMax && gun.AmmoQuantity > 0)
                 {
-                    if (pi.reloadAction.WasPressedThisFrame())
+                    if (pi.reloadAction.WasPressedThisFrame() && !pi.blockReload)
                     {
                         gun.RechargeAmmo();
                     }
