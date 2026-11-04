@@ -237,6 +237,7 @@ public class ZombieBase : MonoBehaviour
         rm.RemoveZombie(this);
         pus.Spawn();
         SFX_ZombieDeath.Play();
+        Debug.Log("anda");
         if (bosstheme != null)
         {
             bosstheme.Stop();
