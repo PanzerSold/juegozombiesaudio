@@ -1,7 +1,6 @@
-
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.Audio;
 
 public class ZombieBase : MonoBehaviour
 {
@@ -25,7 +24,10 @@ public class ZombieBase : MonoBehaviour
 
 
     [Header("Sonidos")]
-    [SerializeField] private AudioSource SFX_ZombieDeath;
+    [SerializeField] private AudioSource sourceZombieDeath;
+    [SerializeField] private AudioSource sourceZombieIdle;
+    [SerializeField] private AudioClip SFX_ZombieDeath;
+    [SerializeField] private AudioClip SFX_ZombieIdle;
 
     private Rigidbody rb;
 
@@ -57,8 +59,6 @@ public class ZombieBase : MonoBehaviour
     private Animator anim;
 
     private bool isAttacking = false;
-
-    [SerializeField] private AudioSource zombieAudio;
 
     [SerializeField] private bool gonza = false;
 
@@ -127,7 +127,7 @@ public class ZombieBase : MonoBehaviour
 
         double inicio = AudioSettings.dspTime + Random.Range(0.1f, 0.5f);
 
-        zombieAudio.PlayScheduled(inicio);
+        sourceZombieIdle.PlayScheduled(inicio);
 
         yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
 
@@ -141,10 +141,10 @@ public class ZombieBase : MonoBehaviour
         bool blockedByBarricade = destroyingBarricade && ultimabarricada != null && !ultimabarricada.isOpen;
         nav.SetHolding(blockedByBarricade);
 
-        if (!zombieAudio.isPlaying)
+        if (!sourceZombieIdle.isPlaying)
         {
-            zombieAudio.pitch = Random.Range(0.8f, 1.2f);
-            zombieAudio.Play();
+            sourceZombieIdle.pitch = Random.Range(0.8f, 1.2f);
+            sourceZombieIdle.Play();
         }
         if (blockedByBarricade || isStunned || isAttacking) return;
 
@@ -236,8 +236,10 @@ public class ZombieBase : MonoBehaviour
         //----- NUEVO CODIGO -----
         rm.RemoveZombie(this);
         pus.Spawn();
-        SFX_ZombieDeath.Play();
-        Debug.Log("anda");
+        sourceZombieDeath.transform.SetParent(null);
+        sourceZombieDeath.Play();
+
+        Destroy(sourceZombieDeath.gameObject, sourceZombieDeath.clip.length);
         if (bosstheme != null)
         {
             bosstheme.Stop();
