@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public static class GameSettings
 {
@@ -11,6 +12,12 @@ public static class GameSettings
     const string SFXVolumeKey = "sfx_volume";
 
     public static event Action OnChanged;
+
+    public static void ApplyMixerVolume(AudioMixer mixer, string parameter, float volume)
+    {
+        float decibels = Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20f;
+        mixer.SetFloat(parameter, decibels);
+    }
 
     public static float MouseSensitivity
     {

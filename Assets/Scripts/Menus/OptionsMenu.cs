@@ -58,7 +58,6 @@ public class OptionsMenu : MonoBehaviour
 
     private void SetVolume(string parameterName, float volume)
     {
-        float dB = Mathf.Log10(Mathf.Max(volume, 0.0001f)) * 20f;
-        audioMixer.SetFloat(parameterName, dB);
+        GameSettings.ApplyMixerVolume(audioMixer, parameterName, volume);
     }
 }
