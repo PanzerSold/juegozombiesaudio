@@ -5861,6 +5861,7 @@ MonoBehaviour:
   speedIndex: 0
   zombieAudio: {fileID: 2416553615003042340}
   gonza: 0
+  gonzaSpeed: 4
 --- !u!114 &2163085699649589148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6098,7 +6099,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -1949492420168737780, guid: 1b715518eb107f44db88271539db3efc, type: 2}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: ac6ac5c22cfdd754692f0d5e52ba887c, type: 3}
+  m_Resource: {fileID: 8300000, guid: 74cdbe7a2b1d0e444aa0cb8cefe72fec, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.15
   m_Pitch: 1
