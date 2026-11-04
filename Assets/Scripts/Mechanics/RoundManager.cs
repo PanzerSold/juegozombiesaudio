@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -31,6 +31,8 @@ public class RoundManager : MonoBehaviour
     [SerializeField] private int currentRound = 1;
 
     public int mapActivity = 0;
+    public enum WavePhase { Respite, Combat, Boss }
+    public WavePhase Phase { get; private set; }
 
 
     void Start()
@@ -88,17 +90,22 @@ public class RoundManager : MonoBehaviour
 
         ZombieBase gonzaScript = newGonza.GetComponent<ZombieBase>();
 
-        gonzaScript.AsignMusic(musicSource);
+        if (!musicSource.TryGetComponent(out AdaptiveMusic adaptiveMusic) || !adaptiveMusic.isActiveAndEnabled)
+        {
+            gonzaScript.AsignMusic(musicSource);
+        }
         gonzaScript.goTo(nearestBarricadePos);
         zombieList.Add(gonzaScript);
 
         gonzaSpawned = true;
+        Phase = WavePhase.Boss;
     }
 
     public async void RestartRound()
     {
         if (restartingRound) return;
         restartingRound = true;
+        Phase = WavePhase.Respite;
         RoundPassSFX.Play();
         await Awaitable.WaitForSecondsAsync(1f);
         currentRound++;
