@@ -21,11 +21,13 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private Slider ambientSlider;
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider sfxSlider;
+    [SerializeField] private Slider voicesSlider;
 
     [SerializeField] private TMP_Text masterPercent;
     [SerializeField] private TMP_Text ambientPercent;
     [SerializeField] private TMP_Text musicPercent;
     [SerializeField] private TMP_Text sfxPercent;
+    [SerializeField] private TMP_Text voicesPercent;
 
     private void Start()
     {
@@ -35,6 +37,7 @@ public class OptionsMenu : MonoBehaviour
         SetupVolumeSlider(ambientSlider, ambientPercent, GameSettings.AmbientVolume, v => GameSettings.AmbientVolume = v, "AmbientVolume");
         SetupVolumeSlider(musicSlider, musicPercent, GameSettings.MusicVolume, v => GameSettings.MusicVolume = v, "MusicVolume");
         SetupVolumeSlider(sfxSlider, sfxPercent, GameSettings.SFXVolume, v => GameSettings.SFXVolume = v, "SFXVolume");
+        SetupVolumeSlider(voicesSlider, voicesPercent, GameSettings.VoicesVolume, v => GameSettings.VoicesVolume = v, "VoicesVolume");
     }
 
     private void SetupSlider(Slider slider, TMP_Text label, float current, System.Action<float> onChange)

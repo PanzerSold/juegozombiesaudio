@@ -1,21 +1,28 @@
-
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class RoundManager : MonoBehaviour
 {
+    [Header("Referencias Generales")]
     [SerializeField] AudioSource RoundPassSFX;
     [SerializeField] GameObject ZombieSpawnerMain;
     [SerializeField] private TextMeshProUGUI roundText;
     [SerializeField] GameObject zombieObj;
-
     [SerializeField] GameObject gonzaPrefab;
-
     [SerializeField] AudioSource musicSource;
 
-    [SerializeField] int gonzaBaseHealth = 100;
+    [Header("Sistema de Ambiente (Bloque D)")]
+    [SerializeField] AudioSource sourcePajaros;
+    [SerializeField] AudioSource sourceTormenta;
+    [SerializeField] float duracionTransicion = 2.0f;
+    [SerializeField] float volumenMaximoPajaros = 1.0f;  
+    [SerializeField] float volumenMaximoTormenta = 0.4f;   
+    private Coroutine rutinaTransicionAmbiente;
 
+    [Header("Configuración de Rondas y Jefes")]
+    [SerializeField] int gonzaBaseHealth = 100;
     private bool gonzaSpawned = false;
     private bool restartingRound = false;
     private List<SpawnerZombie> SZSpawners = new List<SpawnerZombie>();
@@ -34,7 +41,17 @@ public class RoundManager : MonoBehaviour
         {
             SZSpawners.Add(child.GetComponent<SpawnerZombie>());
         }
+
+        // Bloque D: inicializacion de ambiente
+        if (sourcePajaros != null && sourceTormenta != null)
+        {
+            sourcePajaros.volume = volumenMaximoPajaros;
+            sourceTormenta.volume = 0f;
+            if (!sourcePajaros.isPlaying) sourcePajaros.Play();
+            if (!sourceTormenta.isPlaying) sourceTormenta.Play();
+        }
     }
+
     public void AddZombie(Transform spawnTransform, Vector3 nearestBarricadePos)
     {
         if (currentRound % 10 == 0)
@@ -54,13 +71,13 @@ public class RoundManager : MonoBehaviour
 
             bool shouldntRandom = currentRound < 3 || currentRound > 5;
             int roundRange = currentRound < 6 ? 0 : 1;
-            int indexRandom = shouldntRandom ? roundRange * 2 : Random.Range(0,2) + roundRange;
+            int indexRandom = shouldntRandom ? roundRange : Random.Range(0, 2) + roundRange;
 
             newZombieScript.ChangeSpeed(indexRandom);
             newZombieScript.goTo(nearestBarricadePos);
             zombieList.Add(newZombieScript);
             Phase = WavePhase.Combat;
-            zombiesForCurrentRound--;   
+            zombiesForCurrentRound--;
         }
     }
 
@@ -70,11 +87,11 @@ public class RoundManager : MonoBehaviour
         int randomIndex = Random.Range(0, SZSpawners.Count);
         SpawnerZombie selectedSpawner = SZSpawners[randomIndex];
 
-        GameObject newGonza = Instantiate(gonzaPrefab,selectedSpawner.transform.position,selectedSpawner.transform.rotation);
+        GameObject newGonza = Instantiate(gonzaPrefab, selectedSpawner.transform.position, selectedSpawner.transform.rotation);
 
         ZombieBase gonzaScript = newGonza.GetComponent<ZombieBase>();
 
-        if (!musicSource.TryGetComponent(out AdaptiveMusic adaptiveMusic) || !adaptiveMusic.isActiveAndEnabled)
+        if (musicSource != null && (!musicSource.TryGetComponent(out AdaptiveMusic adaptiveMusic) || !adaptiveMusic.isActiveAndEnabled))
         {
             gonzaScript.AsignMusic(musicSource);
         }
@@ -94,9 +111,12 @@ public class RoundManager : MonoBehaviour
         await Awaitable.WaitForSecondsAsync(1f);
         currentRound++;
         roundText.text = "Round " + currentRound;
+
+        GestionarAmbientePorRonda();
+
         await Awaitable.WaitForSecondsAsync(3f);
         if (this == null) return;
-        zombiesForCurrentRound = currentRound*4;
+        zombiesForCurrentRound = currentRound * 4;
         foreach (SpawnerZombie sz in SZSpawners)
         {
             sz.SetSpawnTimer();
@@ -104,6 +124,28 @@ public class RoundManager : MonoBehaviour
         restartingRound = false;
         gonzaSpawned = false;
     }
+
+    private void GestionarAmbientePorRonda()
+    {
+        if (sourcePajaros == null || sourceTormenta == null) return;
+
+        bool esRondaJefe = (currentRound % 10 == 0);
+
+        if (rutinaTransicionAmbiente != null)
+        {
+            StopCoroutine(rutinaTransicionAmbiente);
+        }
+
+        if (esRondaJefe)
+        {
+            rutinaTransicionAmbiente = StartCoroutine(TransicionAudio(sourcePajaros, sourceTormenta, volumenMaximoTormenta));
+        }
+        else
+        {
+            rutinaTransicionAmbiente = StartCoroutine(TransicionAudio(sourceTormenta, sourcePajaros, volumenMaximoPajaros));
+        }
+    }
+
     public int SetHealthBasedOnRound()
     {
         return 8 + 2 * currentRound + currentRound - 1;
@@ -113,17 +155,16 @@ public class RoundManager : MonoBehaviour
     {
         return currentRound * gonzaBaseHealth;
     }
+
     public void RemoveZombie(ZombieBase zombie)
     {
         zombieList.Remove(zombie);
-
 
         if (currentRound % 10 == 0 && gonzaSpawned && zombieList.Count == 0)
         {
             RestartRound();
             return;
         }
-
 
         if (zombieList.Count == 0 && zombiesForCurrentRound == 0)
         {
@@ -135,5 +176,26 @@ public class RoundManager : MonoBehaviour
     {
         mapActivity++;
     }
-    
+    //Bloque D:
+    private IEnumerator TransicionAudio(AudioSource saliente, AudioSource entrante, float volumenObjetivoEntrante)
+    {
+        float tiempo = 0f;
+        float volInicialSaliente = saliente.volume;
+        float volInicialEntrante = entrante.volume;
+
+        if (!entrante.isPlaying) entrante.Play();
+
+        while (tiempo < duracionTransicion)
+        {
+            tiempo += Time.deltaTime;
+            float porcentaje = tiempo / duracionTransicion;
+            saliente.volume = Mathf.Lerp(volInicialSaliente, 0f, porcentaje);
+            entrante.volume = Mathf.Lerp(volInicialEntrante, volumenObjetivoEntrante, porcentaje);
+
+            yield return null;
+        }
+
+        saliente.volume = 0f;
+        entrante.volume = volumenObjetivoEntrante;
+    }
 }
