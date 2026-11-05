@@ -171,10 +171,7 @@ public class Radio : Interaction
         );
     }
 
-    private IEnumerator ReproducirClip(
-        AudioClip clip,
-        AudioSource fuente,
-        bool esPresentador)
+    private IEnumerator ReproducirClip(AudioClip clip, AudioSource fuente, bool esPresentador)
     {
         reproduciendoClip = true;
 
@@ -187,8 +184,10 @@ public class Radio : Interaction
 
         ActualizarTexto();
 
-        // Esperar a que termine el clip.
-        double tiempoFinal = AudioSettings.dspTime + clip.length / Mathf.Max(0.01f, fuente.pitch);
+        // Esperar a que termine el audio principal.
+        // Esta espera utiliza el reloj de audio para respetar la pausa del juego.
+        double tiempoFinal = AudioSettings.dspTime +
+            clip.length / Mathf.Max(0.01f, fuente.pitch);
 
         while (AudioSettings.dspTime < tiempoFinal)
         {
@@ -197,23 +196,40 @@ public class Radio : Interaction
 
         fuente.Stop();
 
+        // Si el presentador fue el último clip, activar música permanente.
+        if (esPresentador && clipsReproducidos == 3)
+        {
+            reproduciendoClip = false;
+            reproduccionActual = null;
+
+            ActivarMusicaPermanente();
+            yield break;
+        }
+
+        // Si el presentador apareció antes del último clip,
+        // reproducir la música una sola vez.
+        if (esPresentador && clipsReproducidos < 3)
+        {
+            musicaSource.clip = musica;
+            musicaSource.loop = false;
+            musicaSource.Play();
+
+            // El tiempo sigue avanzando incluso durante la pausa.
+            yield return new WaitForSecondsRealtime(
+                musica.length / Mathf.Max(0.01f, musicaSource.pitch)
+            );
+
+            musicaSource.Stop();
+        }
+
         reproduciendoClip = false;
         reproduccionActual = null;
 
-        // Si el presentador fue el último, activar la música automáticamente.
-        if (clipsReproducidos == 3 && esPresentador)
-        {
-            ActivarMusicaPermanente();
-        }
-        else
-        {
-            // Todavía no corresponde activar la música permanente.
-            EstablecerSonidoPredeterminado();
-        }
+        // Volver a la estática.
+        EstablecerSonidoPredeterminado();
 
         ActualizarTexto();
     }
-
     private void DetenerTodosLosAudios()
     {
         estaticaSource.Stop();

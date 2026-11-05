@@ -36,6 +36,9 @@ public sealed class AdaptiveMusic : MonoBehaviour
         weights = targetWeights = startWeights = Vector3.right;
         ApplyVolumes();
         currentSource.Play();
+        respite.Source.ignoreListenerPause = true;
+        combat.Source.ignoreListenerPause = true;
+        boss.Source.ignoreListenerPause = true;
     }
 
     private void Update()

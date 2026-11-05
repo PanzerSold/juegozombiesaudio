@@ -456,7 +456,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2008765030}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: PauseGame
+        m_MethodName: ResumeGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -585,7 +585,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 7448928229949629676, guid: 1b715518eb107f44db88271539db3efc, type: 2}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 349fae95837f4744e9e3211a24d08b11, type: 3}
+  m_Resource: {fileID: 8300000, guid: 083e99eb1c2bf0c44b6205355907e9cf, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.3
   m_Pitch: 1
@@ -2433,10 +2433,10 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 5092030855431385455, guid: 1b715518eb107f44db88271539db3efc, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 5eb2a1efd7b42f44ca9a441d317b294e, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -29824,7 +29824,7 @@ MonoBehaviour:
   estatica: {fileID: 8300000, guid: 5e9385ff626a8694ba22769c92f060d0, type: 3}
   reportero: {fileID: 8300000, guid: e7e38329f344cd14eabd97e15aeed4cb, type: 3}
   publicidad: {fileID: 8300000, guid: 0ba03c78ed8ca1f4b8498f7e8266939d, type: 3}
-  presentador: {fileID: 8300000, guid: 349fae95837f4744e9e3211a24d08b11, type: 3}
+  presentador: {fileID: 8300000, guid: 083e99eb1c2bf0c44b6205355907e9cf, type: 3}
   musica: {fileID: 8300000, guid: 94622b0db6ce3e0428535ff0e4cfba2f, type: 3}
 --- !u!4 &1844373233 stripped
 Transform:
@@ -31314,7 +31314,7 @@ MonoBehaviour:
   reticula: {fileID: 462574372}
   normalSnapshot: {fileID: 24500006, guid: 1b715518eb107f44db88271539db3efc, type: 2}
   pausedSnapshot: {fileID: 2460787681139744892, guid: 1b715518eb107f44db88271539db3efc, type: 2}
-  transitionTime: 0
+  transitionTime: 0.25
 --- !u!1 &2048338108
 GameObject:
   m_ObjectHideFlags: 0
