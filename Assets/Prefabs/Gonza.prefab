@@ -5288,7 +5288,10 @@ MonoBehaviour:
   healChance: 0.0667
   pus: {fileID: 2163085699649589148}
   zombieRagdoll: {fileID: 7277187663294482894, guid: aaa360895ac833345a7b46d044e33a82, type: 3}
-  SFX_ZombieDeath: {fileID: 6062206774543140016}
+  sourceZombieDeath: {fileID: 7011282383658419902}
+  sourceZombieIdle: {fileID: 6062206774543140016}
+  SFX_ZombieDeath: {fileID: 8300000, guid: 74cdbe7a2b1d0e444aa0cb8cefe72fec, type: 3}
+  SFX_ZombieIdle: {fileID: 8300000, guid: ea9500ad7d77d8245ad41fdbdad10204, type: 3}
   attackRange: 0.9
   zombieDamage: 1
   ps: {fileID: 7298432569968053434}
@@ -5297,8 +5300,8 @@ MonoBehaviour:
   - 1.8
   - 2.4
   speedIndex: 2
-  zombieAudio: {fileID: 7011282383658419902}
   gonza: 1
+  gonzaSpeed: 4
 --- !u!114 &2163085699649589148
 MonoBehaviour:
   m_ObjectHideFlags: 0
