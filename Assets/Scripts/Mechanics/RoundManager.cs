@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -41,7 +42,7 @@ public class RoundManager : MonoBehaviour
         {
             SZSpawners.Add(child.GetComponent<SpawnerZombie>());
         }
-
+        RoundPassSFX.ignoreListenerPause = true;
         // Bloque D: inicializacion de ambiente
         if (sourcePajaros != null && sourceTormenta != null)
         {
